@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DRI 网站</title>
+    <meta
+      name="description"
+      content="DRI 网站首版，用于公开展示项目内容、功能特点和后续更新。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="DRI 网站首页">DRI</a>
+      <nav class="nav" aria-label="主导航">
+        <a href="#overview">概要</a>
+        <a href="#features">特点</a>
+        <a href="#interaction">交互</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Public Website Draft</p>
+          <h1 id="hero-title">DRI 网站</h1>
+          <p class="hero-text">
+            这是 DRI 网站的公开首版，用于沉淀项目介绍、核心功能、内容结构和后续迭代方向。
+          </p>
+          <div class="hero-actions" aria-label="主要操作">
+            <a class="button primary" href="#overview">查看内容</a>
+            <a class="button secondary" href="#features">了解功能</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="section" aria-labelledby="overview-title">
+        <div class="section-heading">
+          <p class="eyebrow">Overview</p>
+          <h2 id="overview-title">网站内容概要</h2>
+        </div>
+        <div class="content-grid">
+          <article class="panel">
+            <h3>项目定位</h3>
+            <p>
+              用一个公开网页承载 DRI 相关信息，让访问者快速理解项目背景、当前内容和未来扩展方向。
+            </p>
+          </article>
+          <article class="panel">
+            <h3>首屏信息</h3>
+            <p>
+              首屏直接呈现网站名称和当前用途，帮助访问者明确这是一个持续维护中的公开站点。
+            </p>
+          </article>
+          <article class="panel">
+            <h3>内容维护</h3>
+            <p>
+              通过项目内的 WEBSITE.md 同步记录内容概要、功能特点、交互细节和部署方式。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="features" class="section band" aria-labelledby="features-title">
+        <div class="section-heading">
+          <p class="eyebrow">Features</p>
+          <h2 id="features-title">功能特点</h2>
+        </div>
+        <ul class="feature-list">
+          <li>
+            <span class="marker" aria-hidden="true"></span>
+            <div>
+              <h3>公开访问</h3>
+              <p>站点可通过 GitHub Pages 发布，生成稳定的公开链接。</p>
+            </div>
+          </li>
+          <li>
+            <span class="marker" aria-hidden="true"></span>
+            <div>
+              <h3>静态部署</h3>
+              <p>当前首版不依赖后端服务，部署和维护成本较低。</p>
+            </div>
+          </li>
+          <li>
+            <span class="marker" aria-hidden="true"></span>
+            <div>
+              <h3>可持续迭代</h3>
+              <p>后续可以逐步加入更多页面、数据模块、下载内容或交互组件。</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="interaction" class="section" aria-labelledby="interaction-title">
+        <div class="section-heading">
+          <p class="eyebrow">Interaction</p>
+          <h2 id="interaction-title">交互细节</h2>
+        </div>
+        <div class="interaction-layout">
+          <div>
+            <h3>页面导航</h3>
+            <p>
+              顶部导航锚点跳转到内容概要、功能特点和交互细节。页面在桌面端和移动端都保持清晰可读。
+            </p>
+          </div>
+          <div>
+            <h3>响应式布局</h3>
+            <p>
+              首版采用静态响应式布局，内容区会根据屏幕宽度自动调整排列方式。
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>DRI 网站将随项目进展持续更新。</p>
+    </footer>
+  </body>
+</html>
