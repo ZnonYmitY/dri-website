@@ -1,5 +1,20 @@
 const STORAGE_KEY = `ai-dri-guide-page-state:${window.location.pathname}`;
+const GLOBAL_NAV_KEY = "ai-dri-guide-global-nav";
 const STATE_VERSION = 4;
+const defaultNavLabels = {
+  guide: "指南针",
+  map: "能力地图",
+  cases: "实践案例",
+  resources: "成长路径",
+  about: "关于我们",
+};
+const navKeyByHref = {
+  "guide.html": "guide",
+  "map.html": "map",
+  "cases.html": "cases",
+  "resources.html": "resources",
+  "index.html#about": "about",
+};
 
 const editableSelector = [
   "h1",
@@ -21,6 +36,7 @@ const nonEditableSelector = [
   ".round-nav",
   ".quiz-dots",
   ".tag-popover",
+  ".site-header a",
 ].join(",");
 
 const quizQuestions = [
@@ -116,13 +132,23 @@ let editing = false;
 let currentQuestion = 0;
 const answers = new Array(quizQuestions.length).fill(null);
 
-const toggleEditButton = document.getElementById("toggleEdit");
-const saveButton = document.getElementById("savePage");
-const exportButton = document.getElementById("exportHtml");
-const saveStatus = document.getElementById("saveStatus");
-const resultCard = document.getElementById("quizResult");
-const popover = document.getElementById("definitionPopover");
-const hasQuiz = !!document.getElementById("quizOptions");
+let toggleEditButton;
+let saveButton;
+let exportButton;
+let saveStatus;
+let resultCard;
+let popover;
+let hasQuiz = false;
+
+function refreshDomReferences() {
+  toggleEditButton = document.getElementById("toggleEdit");
+  saveButton = document.getElementById("savePage");
+  exportButton = document.getElementById("exportHtml");
+  saveStatus = document.getElementById("saveStatus");
+  resultCard = document.getElementById("quizResult");
+  popover = document.getElementById("definitionPopover");
+  hasQuiz = !!document.getElementById("quizOptions");
+}
 
 function editableElements() {
   return [...document.querySelectorAll(`.editable-scope ${editableSelector}`)].filter(
@@ -130,10 +156,21 @@ function editableElements() {
   );
 }
 
+function clearEditingAttributes(root = document) {
+  root.querySelectorAll("[contenteditable]").forEach((element) => {
+    element.removeAttribute("contenteditable");
+  });
+  root.querySelectorAll("[spellcheck]").forEach((element) => {
+    element.removeAttribute("spellcheck");
+  });
+}
+
 function setEditing(nextValue) {
   editing = nextValue;
   document.body.classList.toggle("editing", editing);
-  toggleEditButton.firstChild.textContent = editing ? "退出编辑" : "编辑模式";
+  if (toggleEditButton) {
+    toggleEditButton.firstChild.textContent = editing ? "退出编辑" : "编辑模式";
+  }
   editableElements().forEach((element) => {
     element.contentEditable = editing ? "true" : "false";
     if (editing) {
@@ -265,7 +302,7 @@ function showResult({ scroll = true } = {}) {
 
 function showPopover(key, anchor) {
   const content = popoverContent[key];
-  if (!content) return;
+  if (!content || !popover) return;
   document.getElementById("popoverTitle").textContent = content.title;
   document.getElementById("popoverText").textContent = content.text;
   popover.hidden = false;
@@ -277,11 +314,13 @@ function showPopover(key, anchor) {
 }
 
 function closePopover() {
+  if (!popover) return;
   popover.hidden = true;
 }
 
 function pageState() {
   const scopeClone = document.querySelector(".editable-scope").cloneNode(true);
+  clearEditingAttributes(scopeClone);
   scopeClone.querySelectorAll(".upload-chip, input[data-upload-for]").forEach((element) => {
     element.remove();
   });
@@ -293,8 +332,47 @@ function pageState() {
   };
 }
 
+function normalizeNavLinks() {
+  document.querySelectorAll(".site-header .nav a").forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!link.dataset.navKey && navKeyByHref[href]) {
+      link.dataset.navKey = navKeyByHref[href];
+    }
+  });
+}
+
+function navLabels() {
+  normalizeNavLinks();
+  return Array.from(document.querySelectorAll(".site-header .nav a[data-nav-key]")).reduce(
+    (labels, link) => {
+      labels[link.dataset.navKey] = link.textContent.trim();
+      return labels;
+    },
+    {},
+  );
+}
+
+function applyNavLabels() {
+  normalizeNavLinks();
+  let savedLabels = {};
+  try {
+    savedLabels = JSON.parse(localStorage.getItem(GLOBAL_NAV_KEY) || "{}");
+  } catch {
+    localStorage.removeItem(GLOBAL_NAV_KEY);
+  }
+  const labels = { ...defaultNavLabels, ...savedLabels };
+  document.querySelectorAll(".site-header .nav a[data-nav-key]").forEach((link) => {
+    const label = labels[link.dataset.navKey];
+    if (label) {
+      link.textContent = label;
+    }
+  });
+}
+
 function saveState(message = "已保存") {
+  localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(navLabels()));
   localStorage.setItem(STORAGE_KEY, JSON.stringify(pageState()));
+  if (!saveStatus) return;
   saveStatus.textContent = message;
   window.setTimeout(() => {
     saveStatus.textContent = "";
@@ -303,27 +381,30 @@ function saveState(message = "已保存") {
 
 function restoreState() {
   const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return;
-  try {
-    const state = JSON.parse(raw);
-    if (state.version !== STATE_VERSION) {
+  if (raw) {
+    try {
+      const state = JSON.parse(raw);
+      if (state.version !== STATE_VERSION) {
+        localStorage.removeItem(STORAGE_KEY);
+      } else {
+        if (state.html) {
+          document.querySelector(".editable-scope").innerHTML = state.html;
+        }
+        if (Array.isArray(state.answers)) {
+          state.answers.slice(0, answers.length).forEach((answer, index) => {
+            answers[index] = answer;
+          });
+        }
+        if (Number.isInteger(state.currentQuestion)) {
+          currentQuestion = Math.min(Math.max(state.currentQuestion, 0), quizQuestions.length - 1);
+        }
+      }
+    } catch {
       localStorage.removeItem(STORAGE_KEY);
-      return;
     }
-    if (state.html) {
-      document.querySelector(".editable-scope").innerHTML = state.html;
-    }
-    if (Array.isArray(state.answers)) {
-      state.answers.slice(0, answers.length).forEach((answer, index) => {
-        answers[index] = answer;
-      });
-    }
-    if (Number.isInteger(state.currentQuestion)) {
-      currentQuestion = Math.min(Math.max(state.currentQuestion, 0), quizQuestions.length - 1);
-    }
-  } catch {
-    localStorage.removeItem(STORAGE_KEY);
   }
+  clearEditingAttributes();
+  applyNavLabels();
 }
 
 function cleanCloneForExport() {
@@ -351,6 +432,7 @@ function exportHtml() {
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
+  if (!saveStatus) return;
   saveStatus.textContent = "已导出";
   window.setTimeout(() => {
     saveStatus.textContent = "";
@@ -358,9 +440,9 @@ function exportHtml() {
 }
 
 function bindEvents() {
-  toggleEditButton.addEventListener("click", () => setEditing(!editing));
-  saveButton.addEventListener("click", () => saveState());
-  exportButton.addEventListener("click", exportHtml);
+  toggleEditButton?.addEventListener("click", () => setEditing(!editing));
+  saveButton?.addEventListener("click", () => saveState());
+  exportButton?.addEventListener("click", exportHtml);
 
   document.getElementById("prevQuestion")?.addEventListener("click", () => {
     currentQuestion = (currentQuestion - 1 + quizQuestions.length) % quizQuestions.length;
@@ -386,13 +468,14 @@ function bindEvents() {
 
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a");
-    if (editing && link && link.closest(".editable-scope")) {
+    if (editing && link && link.closest(".editable-scope") && !link.closest(".site-header")) {
       event.preventDefault();
     }
   });
 }
 
 restoreState();
+refreshDomReferences();
 installImageUploaders();
 renderQuiz();
 bindEvents();
