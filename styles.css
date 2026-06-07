@@ -1598,6 +1598,50 @@ body.editing .upload-chip {
   }
 }
 
+@media (max-width: 860px) {
+  .site-header {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .editor-bar {
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    z-index: 60;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 8px;
+    border: 1px solid rgba(205, 187, 142, 0.78);
+    border-radius: 14px;
+    padding: 10px;
+    background: rgba(249, 241, 219, 0.94);
+    box-shadow: 0 18px 40px rgba(19, 45, 69, 0.2);
+    backdrop-filter: blur(18px);
+  }
+
+  .nav {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .editor-button {
+    flex: 0 0 auto;
+  }
+
+  .save-status {
+    flex: 0 0 auto;
+    min-width: max-content;
+    padding: 0 6px;
+    align-self: center;
+  }
+}
+
 @media (max-width: 720px) {
   .editor-button {
     min-width: max-content;
@@ -1632,20 +1676,12 @@ body.editing .upload-chip {
   }
 
   .editor-bar {
-    grid-column: 1;
+    grid-column: 1 / -1;
     grid-row: 2;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    justify-content: flex-end;
   }
 
   body.editing .editor-bar {
     grid-row: 2;
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    justify-content: flex-start;
   }
 
   .media-grid {

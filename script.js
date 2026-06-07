@@ -1,4 +1,20 @@
-const STORAGE_KEY = `ai-dri-guide-page-state:${window.location.pathname}`;
+function canonicalPagePath(pathname) {
+  return pathname.replace(/\/index\.html$/, "/");
+}
+
+function legacyStorageKeys(pathname) {
+  const canonicalPath = canonicalPagePath(pathname);
+  const keys = new Set([canonicalPath]);
+  if (canonicalPath.endsWith("/")) {
+    keys.add(`${canonicalPath}index.html`);
+  }
+  return [...keys].map((path) => `ai-dri-guide-page-state:${path}`);
+}
+
+const STORAGE_KEY = `ai-dri-guide-page-state:${canonicalPagePath(window.location.pathname)}`;
+const LEGACY_STORAGE_KEYS = legacyStorageKeys(window.location.pathname).filter(
+  (key) => key !== STORAGE_KEY,
+);
 const GLOBAL_NAV_KEY = "ai-dri-guide-global-nav";
 const STATE_VERSION = 6;
 const defaultNavLabels = {
@@ -252,6 +268,16 @@ function clearEditingAttributes(root = document) {
   });
 }
 
+function resetEditorUi(root = document) {
+  const toggle = root.querySelector("#toggleEdit");
+  if (toggle?.firstChild) {
+    toggle.firstChild.textContent = "编辑模式";
+  }
+  root.querySelectorAll(".save-status").forEach((element) => {
+    element.textContent = "";
+  });
+}
+
 function setEditing(nextValue) {
   editing = nextValue;
   document.body.classList.toggle("editing", editing);
@@ -486,6 +512,7 @@ function closePopover() {
 function pageState() {
   const scopeClone = document.querySelector(".editable-scope").cloneNode(true);
   clearEditingAttributes(scopeClone);
+  resetEditorUi(scopeClone);
   scopeClone.querySelectorAll(".upload-chip, input[data-upload-for]").forEach((element) => {
     element.remove();
   });
@@ -552,6 +579,7 @@ function applyNavLabels() {
 function saveState(message = "已保存") {
   localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(navLabels()));
   localStorage.setItem(STORAGE_KEY, JSON.stringify(pageState()));
+  LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
   if (!saveStatus) return;
   saveStatus.textContent = message;
   window.setTimeout(() => {
@@ -560,13 +588,18 @@ function saveState(message = "已保存") {
 }
 
 function restoreState() {
-  const raw = localStorage.getItem(STORAGE_KEY);
+  const stateKey = [STORAGE_KEY, ...LEGACY_STORAGE_KEYS].find((key) => localStorage.getItem(key));
+  const raw = stateKey ? localStorage.getItem(stateKey) : null;
   if (raw) {
     try {
       const state = JSON.parse(raw);
       if (state.version !== STATE_VERSION) {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(stateKey);
       } else {
+        if (stateKey !== STORAGE_KEY) {
+          localStorage.setItem(STORAGE_KEY, raw);
+          localStorage.removeItem(stateKey);
+        }
         if (state.html) {
           document.querySelector(".editable-scope").innerHTML = state.html;
         }
@@ -596,9 +629,7 @@ function cleanCloneForExport() {
     element.removeAttribute("spellcheck");
   });
   clone.querySelectorAll(".upload-chip, input[type='file']").forEach((element) => element.remove());
-  clone.querySelectorAll(".save-status").forEach((element) => {
-    element.textContent = "";
-  });
+  resetEditorUi(clone);
   return `<!doctype html>\n${clone.outerHTML}`;
 }
 
@@ -692,6 +723,7 @@ function bindEvents() {
 
 restoreState();
 refreshDomReferences();
+setEditing(false);
 installImageUploaders();
 renderQuiz();
 bindEvents();
