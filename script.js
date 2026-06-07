@@ -1,6 +1,6 @@
 const STORAGE_KEY = `ai-dri-guide-page-state:${window.location.pathname}`;
 const GLOBAL_NAV_KEY = "ai-dri-guide-global-nav";
-const STATE_VERSION = 5;
+const STATE_VERSION = 6;
 const defaultNavLabels = {
   guide: "核心概念",
   map: "能力地图",
@@ -426,6 +426,34 @@ function setDimension(index) {
   if (title) title.textContent = detail.title;
   if (intro) intro.textContent = detail.intro;
   if (questions) questions.textContent = detail.questions;
+  positionDimensionWheel(index);
+}
+
+function positionDimensionWheel(activeIndex = 0) {
+  const wheel = document.getElementById("dimensionWheel");
+  const nodes = [...document.querySelectorAll("[data-dimension]")];
+  if (!wheel || nodes.length === 0) return;
+
+  if (window.matchMedia("(max-width: 720px)").matches) {
+    nodes.forEach((node) => {
+      node.style.removeProperty("--node-x");
+      node.style.removeProperty("--node-y");
+    });
+    wheel.style.setProperty("--wheel-rotation", "0deg");
+    return;
+  }
+
+  const radius = window.matchMedia("(max-width: 1120px)").matches ? 240 : 250;
+  const step = 360 / nodes.length;
+  nodes.forEach((node, nodeIndex) => {
+    const angle = (nodeIndex - activeIndex) * step;
+    const radians = (angle * Math.PI) / 180;
+    const x = Math.sin(radians) * radius;
+    const y = -Math.cos(radians) * radius;
+    node.style.setProperty("--node-x", `${x.toFixed(1)}px`);
+    node.style.setProperty("--node-y", `${y.toFixed(1)}px`);
+  });
+  wheel.style.setProperty("--wheel-rotation", `${(-activeIndex * step).toFixed(2)}deg`);
 }
 
 function setCase(index) {
@@ -619,6 +647,14 @@ function bindEvents() {
 
   document.querySelectorAll("[data-dimension]").forEach((button) => {
     button.addEventListener("click", () => setDimension(Number(button.dataset.dimension)));
+  });
+  positionDimensionWheel(
+    Number(document.querySelector("[data-dimension].active")?.dataset.dimension || 0),
+  );
+  window.addEventListener("resize", () => {
+    positionDimensionWheel(
+      Number(document.querySelector("[data-dimension].active")?.dataset.dimension || 0),
+    );
   });
 
   document.querySelectorAll("[data-case]").forEach((button) => {

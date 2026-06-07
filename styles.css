@@ -635,54 +635,162 @@ h3 {
   font-size: 1.22rem;
 }
 
+.map-rotary-card {
+  overflow: hidden;
+  padding: 0;
+  background:
+    radial-gradient(circle at 30% 45%, rgba(22, 97, 171, 0.08), transparent 28%),
+    linear-gradient(135deg, rgba(249, 241, 219, 0.96), rgba(251, 245, 230, 0.9));
+}
+
 .map-showcase {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 330px;
-  gap: 44px;
-  align-items: center;
+  grid-template-columns: minmax(620px, 1fr) minmax(360px, 0.62fr);
+  min-height: 640px;
 }
 
 .radar-map {
+  --wheel-rotation: 0deg;
   position: relative;
-  min-height: 600px;
+  min-height: 640px;
   display: grid;
   place-items: center;
+  border-right: 1px solid var(--line);
+  overflow: hidden;
 }
 
-.radar-center {
-  display: grid;
-  place-items: center;
-  width: 164px;
-  height: 164px;
+.radar-map::before,
+.radar-map::after {
+  content: "";
+  position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--primary-2), var(--primary));
-  color: var(--on-dark);
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 800;
+  pointer-events: none;
+}
+
+.radar-map::before {
+  width: 500px;
+  height: 500px;
+  border: 1px solid rgba(205, 187, 142, 0.65);
+  background:
+    repeating-conic-gradient(from var(--wheel-rotation), transparent 0 47deg, rgba(22, 97, 171, 0.24) 47deg 49deg, transparent 49deg 51deg),
+    radial-gradient(circle, transparent 0 40%, rgba(22, 97, 171, 0.09) 40% 40.5%, transparent 40.5% 100%);
+  transition: background 420ms ease;
+}
+
+.radar-map::after {
+  width: 360px;
+  height: 360px;
+  border: 1px dashed rgba(205, 187, 142, 0.72);
 }
 
 .radar-ring {
   position: absolute;
-  width: 430px;
-  height: 430px;
-  border: 2px solid rgba(22, 97, 171, 0.24);
+  width: 560px;
+  height: 560px;
+  border: 2px solid rgba(205, 187, 142, 0.42);
   border-radius: 50%;
+  transform: rotate(var(--wheel-rotation));
+  transition: transform 520ms cubic-bezier(0.2, 0.72, 0.18, 1);
+}
+
+.radar-ring::before,
+.radar-ring::after {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(205, 187, 142, 0.48);
+  border-radius: inherit;
+}
+
+.radar-ring::after {
+  inset: 74px;
+  border-color: rgba(22, 97, 171, 0.2);
+}
+
+.radar-axis {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  transform: rotate(var(--wheel-rotation));
+  transition: transform 520ms cubic-bezier(0.2, 0.72, 0.18, 1);
+}
+
+.radar-axis::before,
+.radar-axis::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(22, 97, 171, 0.28), transparent 44%, transparent 56%, rgba(22, 97, 171, 0.28));
+}
+
+.radar-axis::after {
+  transform: rotate(90deg);
+}
+
+.radar-center {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 188px;
+  height: 188px;
+  border: 16px solid rgba(22, 97, 171, 0.12);
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, rgba(147, 213, 220, 0.42), transparent),
+    radial-gradient(circle, #4080ff 0, var(--primary) 72%);
+  color: #fff;
+  text-align: center;
+  font-size: 2.05rem;
+  font-weight: 820;
+  line-height: 1.25;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.76) inset,
+    0 22px 50px rgba(22, 97, 171, 0.28);
 }
 
 .radar-node {
   position: absolute;
-  width: 168px;
-  min-height: 92px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  background: var(--canvas);
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  width: 212px;
+  min-height: 104px;
+  border: 1px solid rgba(205, 187, 142, 0.75);
+  border-radius: 16px;
+  padding: 18px;
+  background: rgba(251, 245, 230, 0.88);
   color: var(--body);
   cursor: pointer;
   font: inherit;
   text-align: left;
-  box-shadow: 0 12px 28px rgba(22, 97, 171, 0.08);
+  box-shadow: 0 18px 34px rgba(74, 61, 28, 0.12);
+  transform: translate(-50%, -50%) translate(var(--node-x, 0), var(--node-y, 0));
+  transition:
+    transform 520ms cubic-bezier(0.2, 0.72, 0.18, 1),
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease;
+}
+
+.radar-node strong {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(205, 187, 142, 0.2);
+  color: var(--body);
+  font-size: 1.1rem;
 }
 
 .radar-node:hover,
@@ -691,25 +799,51 @@ h3 {
   border-color: var(--primary);
   color: var(--primary);
   outline: none;
-  background: var(--primary-soft);
+  background: rgba(249, 251, 255, 0.96);
+  box-shadow: 0 22px 48px rgba(22, 97, 171, 0.2);
+}
+
+.radar-node.active {
+  width: 252px;
+}
+
+.radar-node.active strong {
+  background: radial-gradient(circle at 30% 25%, var(--primary-2), var(--primary));
+  color: #fff;
 }
 
 .radar-node span {
   display: block;
-  margin-top: 4px;
+  font-size: 1rem;
+  font-weight: 760;
+  line-height: 1.5;
 }
 
-.radar-node[data-dimension="0"] { top: 18px; left: 42%; }
-.radar-node[data-dimension="1"] { top: 130px; right: 0; }
-.radar-node[data-dimension="2"] { top: 292px; right: 10px; }
-.radar-node[data-dimension="3"] { bottom: 36px; right: 88px; }
-.radar-node[data-dimension="4"] { bottom: 34px; left: 88px; }
-.radar-node[data-dimension="5"] { top: 282px; left: 0; }
-.radar-node[data-dimension="6"] { top: 128px; left: 18px; }
-
 .side-note {
-  border-left: 1px solid var(--line);
-  padding-left: 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 58px 58px 58px 66px;
+}
+
+.side-note h2 {
+  margin-bottom: 24px;
+  font-size: clamp(3.2rem, 4.9vw, 5rem);
+  line-height: 1.02;
+}
+
+.side-note > p {
+  margin-bottom: 36px;
+  color: var(--body);
+  font-size: 1.18rem;
+}
+
+.side-note .correction-box {
+  margin-bottom: 34px;
+  border: 1px solid rgba(22, 97, 171, 0.28);
+  background:
+    linear-gradient(135deg, rgba(147, 213, 220, 0.24), rgba(249, 251, 255, 0.7)),
+    var(--primary-soft);
 }
 
 .level-row {
@@ -1398,6 +1532,20 @@ body.editing .upload-chip {
     grid-template-columns: 1fr;
   }
 
+  .map-showcase {
+    min-height: auto;
+  }
+
+  .radar-map {
+    min-height: 660px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .side-note {
+    padding: 38px 34px 42px;
+  }
+
   .card-grid,
   .card-grid.four,
   .card-grid.three {
@@ -1544,9 +1692,17 @@ body.editing .upload-chip {
     min-height: auto;
     gap: 12px;
     place-items: stretch;
+    padding: 18px 0;
+    overflow: visible;
   }
 
+  .radar-map::before,
+  .radar-map::after,
   .radar-ring {
+    display: none;
+  }
+
+  .radar-axis {
     display: none;
   }
 
@@ -1559,6 +1715,12 @@ body.editing .upload-chip {
 
   .radar-node {
     position: static;
+    width: auto;
+    min-height: auto;
+    transform: none !important;
+  }
+
+  .radar-node.active {
     width: auto;
   }
 
