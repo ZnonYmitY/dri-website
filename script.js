@@ -704,6 +704,7 @@ async function fetchGithubState(token = "") {
   }
   const response = await fetch(url, {
     headers,
+    cache: "no-store",
   });
   if (response.status === 404) {
     return { sha: null, state: { version: 1, pages: {}, navLabels: defaultNavLabels } };
