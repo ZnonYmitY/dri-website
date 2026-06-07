@@ -4,6 +4,12 @@
 
 当前首页参考 Claude 的 warm editorial 风格，配色使用新桥青与宣纸白为主，并支持文字编辑、图片上传替换、一键保存到浏览器、导出新 HTML、自测题滑出结果卡片、DRI 定义 hover 浮窗和 FAQ 展开。
 
+顶部前四个 tab 已有原型子页面：
+- `guide.html`：5 个 AI 核心概念速通
+- `map.html`：7 个能力维度地图
+- `cases.html`：5 个常见误区
+- `resources.html`：成长路径与内容预留区
+
 ## 本地预览
 
 ```bash

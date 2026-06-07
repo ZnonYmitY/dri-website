@@ -1,5 +1,5 @@
-const STORAGE_KEY = "ai-dri-guide-page-state";
-const STATE_VERSION = 3;
+const STORAGE_KEY = `ai-dri-guide-page-state:${window.location.pathname}`;
+const STATE_VERSION = 4;
 
 const editableSelector = [
   "h1",
@@ -122,6 +122,7 @@ const exportButton = document.getElementById("exportHtml");
 const saveStatus = document.getElementById("saveStatus");
 const resultCard = document.getElementById("quizResult");
 const popover = document.getElementById("definitionPopover");
+const hasQuiz = !!document.getElementById("quizOptions");
 
 function editableElements() {
   return [...document.querySelectorAll(`.editable-scope ${editableSelector}`)].filter(
@@ -186,6 +187,7 @@ function installImageUploaders() {
 }
 
 function renderQuiz() {
+  if (!hasQuiz) return;
   const item = quizQuestions[currentQuestion];
   document.getElementById("quizCount").textContent = `第 ${currentQuestion + 1} / ${quizQuestions.length} 题`;
   document.getElementById("quizQuestion").textContent = item.question;
@@ -245,6 +247,7 @@ function resultCopyForScore(score) {
 }
 
 function showResult({ scroll = true } = {}) {
+  if (!resultCard) return;
   const score = answers.reduce((sum, value) => sum + value + 1, 0);
   const level = score <= 10 ? "入门型 AI DRI" : score <= 16 ? "进阶型 AI DRI" : "精通型 AI DRI";
   document.getElementById("resultLevel").textContent = level;
@@ -332,9 +335,6 @@ function cleanCloneForExport() {
     element.removeAttribute("spellcheck");
   });
   clone.querySelectorAll(".upload-chip, input[type='file']").forEach((element) => element.remove());
-  clone.querySelectorAll("[data-future-page]").forEach((element) => {
-    element.setAttribute("href", element.getAttribute("data-future-page") || "#");
-  });
   clone.querySelectorAll(".save-status").forEach((element) => {
     element.textContent = "";
   });
@@ -362,12 +362,12 @@ function bindEvents() {
   saveButton.addEventListener("click", () => saveState());
   exportButton.addEventListener("click", exportHtml);
 
-  document.getElementById("prevQuestion").addEventListener("click", () => {
+  document.getElementById("prevQuestion")?.addEventListener("click", () => {
     currentQuestion = (currentQuestion - 1 + quizQuestions.length) % quizQuestions.length;
     renderQuiz();
   });
 
-  document.getElementById("nextQuestion").addEventListener("click", () => {
+  document.getElementById("nextQuestion")?.addEventListener("click", () => {
     currentQuestion = (currentQuestion + 1) % quizQuestions.length;
     renderQuiz();
   });
@@ -386,14 +386,6 @@ function bindEvents() {
 
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a");
-    if (link?.dataset.futurePage) {
-      event.preventDefault();
-      saveStatus.textContent = "子页面待建设";
-      window.setTimeout(() => {
-        saveStatus.textContent = "";
-      }, 1400);
-      return;
-    }
     if (editing && link && link.closest(".editable-scope")) {
       event.preventDefault();
     }
@@ -404,6 +396,6 @@ restoreState();
 installImageUploaders();
 renderQuiz();
 bindEvents();
-if (answers.every((answer) => answer !== null)) {
+if (hasQuiz && answers.every((answer) => answer !== null)) {
   showResult({ scroll: false });
 }

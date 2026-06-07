@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>实践案例 - AI DRI 指南针</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell editable-scope">
+      <header class="site-header">
+        <a class="brand" href="index.html" aria-label="AI DRI 指南针首页">
+          <span class="brand-mark compass-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" role="img"><circle cx="22" cy="22" r="18"></circle><path d="M26.8 17.2 23.9 29l-6.7-2.2 2.9-11.8 6.7 2.2Z"></path><path d="M20.1 15 17.2 26.8l6.7 2.2 2.9-11.8-6.7-2.2Z"></path><path d="M22 5v5M22 34v5M5 22h5M34 22h5"></path></svg>
+          </span>
+          <span>AI DRI 指南针</span>
+        </a>
+        <nav class="nav" aria-label="主导航">
+          <a href="guide.html">指南针</a>
+          <a href="map.html">能力地图</a>
+          <a class="active" href="cases.html">实践案例</a>
+          <a href="resources.html">资源库</a>
+          <a href="index.html#about">关于我们</a>
+        </nav>
+        <div class="editor-bar" aria-label="编辑工具栏">
+          <button class="editor-button editor-primary" type="button" id="toggleEdit">编辑模式 <span aria-hidden="true">›</span></button>
+          <button class="editor-button" type="button" id="savePage">一键保存</button>
+          <button class="editor-button" type="button" id="exportHtml">导出 HTML</button>
+          <span class="save-status" id="saveStatus" aria-live="polite"></span>
+        </div>
+      </header>
+
+      <main class="subpage-main">
+        <section class="case-hero">
+          <div>
+            <p class="pill">常见误区</p>
+            <h1>5 个常见误区，帮你避开 AI 项目落地陷阱</h1>
+            <p>这一部分帮助你校正常见误解。不要只从工具或 Demo 出发，而要从真实价值闭环出发。</p>
+          </div>
+          <div class="orbit-illus" aria-hidden="true"></div>
+        </section>
+
+        <section class="prototype-card">
+          <div class="case-tabs" role="tablist" aria-label="误区">
+            <button type="button">误区一</button>
+            <button class="active" type="button">误区二</button>
+            <button type="button">误区三</button>
+            <button type="button">误区四</button>
+            <button type="button">误区五</button>
+          </div>
+          <div class="case-detail">
+            <article>
+              <h2>误区二：Demo 跑通 = 项目可上线</h2>
+              <p class="pill">高频误判</p>
+              <h3>错误判断</h3>
+              <p>很多团队把 Demo 跑通，当成项目已经具备上线条件。但 Demo 只说明“某一刻能工作”，并不等于真实环境里可稳定交付。</p>
+            </article>
+            <aside class="correction-box">
+              <h3>校正</h3>
+              <h2>上线需要 Eval、兜底、风险分层和用户反馈。</h2>
+              <p><span class="pill">Eval 评估</span> <span class="pill">兜底策略</span> <span class="pill">风险分层</span> <span class="pill">用户反馈</span></p>
+              <a class="button secondary" href="guide.html">查看完整案例 →</a>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section-card">
+          <h2>五个误区总览</h2>
+          <div class="card-grid three">
+            <article class="info-card"><span class="mini-icon">1</span><h3>会用 AI 工具 = 具备 AI 能力</h3><p>工具使用只是入口，DRI 要对价值闭环负责。</p></article>
+            <article class="info-card active"><span class="mini-icon">2</span><h3>Demo 跑通 = 项目可上线</h3><p>上线需要 Eval、兜底、风险分层和用户反馈。</p></article>
+            <article class="info-card"><span class="mini-icon">3</span><h3>AI 项目是算法或研发的事</h3><p>业务 DRI 要定义问题、提供上下文、判断价值和推动闭环。</p></article>
+            <article class="info-card"><span class="mini-icon">4</span><h3>AI 越自动化越好</h3><p>很多早期场景应该先做人机协同，而不是全自动。</p></article>
+            <article class="info-card"><span class="mini-icon">5</span><h3>Prompt 写得好就够了</h3><p>真正决定效果的是上下文、知识、工具、流程和评估。</p></article>
+          </div>
+        </section>
+
+        <section class="section-card">
+          <h2>交互方式参考</h2>
+          <div class="card-grid four">
+            <article class="info-card"><span class="mini-icon">翻</span><h3>翻牌卡片</h3><p>点击后从“误区”翻到“校正”。</p></article>
+            <article class="info-card"><span class="mini-icon">测</span><h3>判断式自测</h3><p>先让用户选择是否认同，再揭示解析。</p></article>
+            <article class="info-card"><span class="mini-icon">抽</span><h3>对比抽屉</h3><p>左侧展示错误观点，右侧抽屉展开正确做法。</p></article>
+            <article class="info-card"><span class="mini-icon">进</span><h3>进度式学习</h3><p>按 1/5 学习误区，可配合收藏与复盘记录。</p></article>
+          </div>
+        </section>
+
+        <section class="banner-note">
+          <span class="brand-mark" aria-hidden="true">⌖</span>
+          <p>误区不是为了纠错别人，而是为了让 AI 项目少走弯路。</p>
+        </section>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

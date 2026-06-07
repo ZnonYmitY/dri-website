@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>能力地图 - AI DRI 指南针</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell editable-scope">
+      <header class="site-header">
+        <a class="brand" href="index.html" aria-label="AI DRI 指南针首页">
+          <span class="brand-mark compass-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" role="img"><circle cx="22" cy="22" r="18"></circle><path d="M26.8 17.2 23.9 29l-6.7-2.2 2.9-11.8 6.7 2.2Z"></path><path d="M20.1 15 17.2 26.8l6.7 2.2 2.9-11.8-6.7-2.2Z"></path><path d="M22 5v5M22 34v5M5 22h5M34 22h5"></path></svg>
+          </span>
+          <span>AI DRI 指南针</span>
+        </a>
+        <nav class="nav" aria-label="主导航">
+          <a href="guide.html">指南针</a>
+          <a class="active" href="map.html">能力地图</a>
+          <a href="cases.html">实践案例</a>
+          <a href="resources.html">资源库</a>
+          <a href="index.html#about">关于我们</a>
+        </nav>
+        <div class="editor-bar" aria-label="编辑工具栏">
+          <button class="editor-button editor-primary" type="button" id="toggleEdit">编辑模式 <span aria-hidden="true">›</span></button>
+          <button class="editor-button" type="button" id="savePage">一键保存</button>
+          <button class="editor-button" type="button" id="exportHtml">导出 HTML</button>
+          <span class="save-status" id="saveStatus" aria-live="polite"></span>
+        </div>
+      </header>
+
+      <main class="subpage-main">
+        <section class="subpage-hero">
+          <p class="pill">指南针体系总览</p>
+          <h1>7 个能力维度，一张图看懂 AI 时代 DRI</h1>
+          <p>这里正式引出 7 个能力维度，但先做概览，不急着展开所有等级。它不是职级评定，而是一张帮助你定位现状、识别短板、规划成长的导航图。</p>
+        </section>
+
+        <section class="prototype-card">
+          <div class="map-showcase">
+            <div class="radar-map">
+              <div class="radar-ring"></div>
+              <div class="radar-center">AI 时代<br />DRI</div>
+              <article class="radar-node"><strong>1</strong><p>用户洞察与问题定义</p></article>
+              <article class="radar-node"><strong>2</strong><p>领域知识与业务链路理解</p></article>
+              <article class="radar-node"><strong>3</strong><p>AI 机会判断</p></article>
+              <article class="radar-node"><strong>4</strong><p>Agent 与工作流编排</p></article>
+              <article class="radar-node"><strong>5</strong><p>数据、知识与上下文工程</p></article>
+              <article class="radar-node"><strong>6</strong><p>评估、安全与质量闭环</p></article>
+              <article class="radar-node"><strong>7</strong><p>产品化、运营与组织推动</p></article>
+            </div>
+            <aside class="side-note">
+              <h2>3. AI 机会判断</h2>
+              <p>能否判断什么适合 AI，什么只是看起来适合。</p>
+              <div class="correction-box">
+                <h3>你需要能回答的问题</h3>
+                <p>这个问题为什么值得 AI 化？AI 能带来效率、质量还是体验增益？哪些环节其实不适合交给 AI？</p>
+              </div>
+              <a class="button secondary" href="resources.html">查看完整等级说明 →</a>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section-card">
+          <h2>七个能力维度概览</h2>
+          <div class="card-grid four">
+            <article class="info-card"><span class="mini-icon">1</span><h3>用户洞察与问题定义</h3><p>能否找到真正值得 AI 化的问题。</p></article>
+            <article class="info-card"><span class="mini-icon">2</span><h3>领域知识与业务链路理解</h3><p>能否理解上下游、指标、约束和业务后果。</p></article>
+            <article class="info-card active"><span class="mini-icon">3</span><h3>AI 机会判断</h3><p>能否判断什么适合 AI，什么只是看起来适合。</p></article>
+            <article class="info-card"><span class="mini-icon">4</span><h3>Agent 与工作流编排</h3><p>能否把任务拆成可执行、可兜底、可持续迭代的链路。</p></article>
+            <article class="info-card"><span class="mini-icon">5</span><h3>数据、知识与上下文工程</h3><p>能否把业务经验沉淀为 AI 可用的知识资产。</p></article>
+            <article class="info-card"><span class="mini-icon">6</span><h3>评估、安全与质量闭环</h3><p>能否判断 AI 是否可靠、是否值得上线。</p></article>
+            <article class="info-card"><span class="mini-icon">7</span><h3>产品化、运营与组织推动</h3><p>能否让 AI 能力被团队持续复用。</p></article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
