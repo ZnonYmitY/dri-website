@@ -253,11 +253,14 @@ const answers = new Array(quizQuestions.length).fill(null);
 let toggleEditButton;
 let saveButton;
 let exportButton;
+let localSaveButton;
+let refreshCloudButton;
 let cloudSettingsButton;
 let saveStatus;
 let resultCard;
 let popover;
 let hasQuiz = false;
+let globalEventsBound = false;
 
 function refreshDomReferences() {
   toggleEditButton = document.getElementById("toggleEdit");
@@ -272,19 +275,40 @@ function refreshDomReferences() {
 
 function ensureCloudSettingsButton() {
   const editorBar = document.querySelector(".editor-bar");
-  const existingButton = document.getElementById("cloudSettings");
-  if (existingButton) {
-    cloudSettingsButton = existingButton;
-    return;
-  }
   if (!editorBar) return;
-  const button = document.createElement("button");
-  button.className = "editor-button";
-  button.id = "cloudSettings";
-  button.type = "button";
-  button.textContent = "云端设置";
-  editorBar.insertBefore(button, saveStatus || null);
-  cloudSettingsButton = button;
+  if (saveButton) {
+    saveButton.textContent = "发布云端";
+  }
+
+  localSaveButton = document.getElementById("saveLocal");
+  if (!localSaveButton && saveButton) {
+    localSaveButton = document.createElement("button");
+    localSaveButton.className = "editor-button";
+    localSaveButton.id = "saveLocal";
+    localSaveButton.type = "button";
+    localSaveButton.textContent = "保存本机";
+    editorBar.insertBefore(localSaveButton, saveButton);
+  }
+
+  refreshCloudButton = document.getElementById("refreshCloud");
+  if (!refreshCloudButton && saveButton) {
+    refreshCloudButton = document.createElement("button");
+    refreshCloudButton.className = "editor-button";
+    refreshCloudButton.id = "refreshCloud";
+    refreshCloudButton.type = "button";
+    refreshCloudButton.textContent = "从云端刷新";
+    editorBar.insertBefore(refreshCloudButton, exportButton || saveStatus || null);
+  }
+
+  cloudSettingsButton = document.getElementById("cloudSettings");
+  if (!cloudSettingsButton) {
+    cloudSettingsButton = document.createElement("button");
+    cloudSettingsButton.className = "editor-button";
+    cloudSettingsButton.id = "cloudSettings";
+    cloudSettingsButton.type = "button";
+    cloudSettingsButton.textContent = "连接 GitHub";
+    editorBar.insertBefore(cloudSettingsButton, saveStatus || null);
+  }
 }
 
 function editableElements() {
@@ -361,7 +385,7 @@ function installImageUploaders() {
       reader.onload = () => {
         image.src = String(reader.result);
         image.dataset.uploaded = "true";
-        saveState("图片已更新");
+        saveLocalState("图片已保存到本机");
       };
       reader.readAsDataURL(file);
     });
@@ -626,7 +650,7 @@ function hasGithubToken() {
 
 function updateCloudSettingsButton() {
   if (!cloudSettingsButton) return;
-  cloudSettingsButton.textContent = hasGithubToken() ? "云端已连接" : "连接云端";
+  cloudSettingsButton.textContent = hasGithubToken() ? "GitHub 已连接" : "连接 GitHub";
 }
 
 function configureGithubToken() {
@@ -659,7 +683,7 @@ function decodeBase64Utf8(text) {
   return new TextDecoder().decode(bytes);
 }
 
-async function loadCloudState() {
+async function loadCloudStateFromPages() {
   try {
     const response = await fetch(`${CLOUD_STATE_URL}?v=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) return null;
@@ -669,14 +693,17 @@ async function loadCloudState() {
   }
 }
 
-async function fetchGithubState(token) {
+async function fetchGithubState(token = "") {
   const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CLOUD_STATE_PATH}?ref=${GITHUB_BRANCH}`;
+  const headers = {
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
   const response = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${token}`,
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
+    headers,
   });
   if (response.status === 404) {
     return { sha: null, state: { version: 1, pages: {}, navLabels: defaultNavLabels } };
@@ -691,27 +718,55 @@ async function fetchGithubState(token) {
   };
 }
 
+async function loadCloudState() {
+  try {
+    return (await fetchGithubState()).state;
+  } catch {
+    return loadCloudStateFromPages();
+  }
+}
+
+function saveLocalState(message = "已保存到本机") {
+  localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(navLabels()));
+  const state = pageState();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+  if (saveStatus) {
+    saveStatus.textContent = message;
+    window.setTimeout(() => {
+      saveStatus.textContent = "";
+    }, 1800);
+  }
+  return state;
+}
+
 async function saveCloudState(state) {
   const { token } = githubConfig();
   if (!token) {
-    saveStatus.textContent = "已本地保存；连接云端后可跨设备";
-    window.setTimeout(() => {
-      saveStatus.textContent = "";
-    }, 2400);
-    return;
+    configureGithubToken();
+  }
+  const config = githubConfig();
+  if (!config.token) {
+    throw new Error("未连接 GitHub，仅已保存本机");
   }
 
   saveStatus.textContent = "正在保存到云端...";
-  const remote = await fetchGithubState(token);
+  const remote = await fetchGithubState(config.token);
+  const cloudUpdatedAt = Date.now();
+  const cloudPageState = {
+    ...state,
+    syncStatus: "cloud",
+    cloudUpdatedAt,
+  };
   const nextState = {
     version: 1,
     ...remote.state,
     pages: {
       ...(remote.state.pages || {}),
-      [PAGE_ID]: state,
+      [PAGE_ID]: cloudPageState,
     },
     navLabels: navLabels(),
-    updatedAt: Date.now(),
+    updatedAt: cloudUpdatedAt,
   };
 
   const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CLOUD_STATE_PATH}`;
@@ -737,23 +792,20 @@ async function saveCloudState(state) {
   if (!response.ok) {
     throw new Error("云端保存失败，请检查 token 权限");
   }
-  saveStatus.textContent = "已保存到云端，稍后全设备可见";
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudPageState));
+  saveStatus.textContent = "已发布到云端，其他设备可刷新查看";
   window.setTimeout(() => {
     saveStatus.textContent = "";
   }, 2600);
 }
 
-async function saveState(message = "已保存") {
-  localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(navLabels()));
-  const state = pageState();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+async function publishState() {
   if (!saveStatus) return;
-  saveStatus.textContent = message;
+  const state = saveLocalState("已保存本机，正在发布...");
   try {
     await saveCloudState(state);
   } catch (error) {
-    saveStatus.textContent = error.message || "云端保存失败，已本地保存";
+    saveStatus.textContent = error.message || "发布失败，已保存本机";
     window.setTimeout(() => {
       saveStatus.textContent = "";
     }, 3200);
@@ -796,6 +848,47 @@ function applyPageState(state) {
   }
 }
 
+async function refreshFromCloud({ force = true } = {}) {
+  const cloudState = await loadCloudState();
+  const cloudPageState = cloudState?.pages?.[PAGE_ID] || null;
+  if (cloudState?.navLabels) {
+    localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(migratedNavLabels(cloudState.navLabels)));
+  }
+  if (!cloudPageState) {
+    if (saveStatus) {
+      saveStatus.textContent = "云端暂无此页面内容";
+      window.setTimeout(() => {
+        saveStatus.textContent = "";
+      }, 1800);
+    }
+    applyNavLabels();
+    return false;
+  }
+  if (!force) {
+    const localState = parseLocalState();
+    const localCloudUpdatedAt = localState?.cloudUpdatedAt || 0;
+    const cloudUpdatedAt = cloudPageState.cloudUpdatedAt || cloudState.updatedAt || 0;
+    if (cloudUpdatedAt <= localCloudUpdatedAt) return false;
+  }
+  applyPageState(cloudPageState);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudPageState));
+  LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+  clearEditingAttributes();
+  refreshDomReferences();
+  setEditing(false);
+  installImageUploaders();
+  renderQuiz();
+  bindEvents();
+  applyNavLabels();
+  if (saveStatus) {
+    saveStatus.textContent = "已从云端刷新";
+    window.setTimeout(() => {
+      saveStatus.textContent = "";
+    }, 1800);
+  }
+  return true;
+}
+
 async function restoreState() {
   const localState = parseLocalState();
   const cloudState = await loadCloudState();
@@ -804,9 +897,9 @@ async function restoreState() {
     localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(migratedNavLabels(cloudState.navLabels)));
   }
 
-  const localUpdatedAt = localState?.updatedAt || 0;
-  const cloudUpdatedAt = cloudPageState?.updatedAt || cloudState?.updatedAt || 0;
-  const stateToApply = cloudPageState && cloudUpdatedAt >= localUpdatedAt ? cloudPageState : localState;
+  const localCloudUpdatedAt = localState?.cloudUpdatedAt || 0;
+  const cloudUpdatedAt = cloudPageState?.cloudUpdatedAt || cloudState?.updatedAt || 0;
+  const stateToApply = cloudPageState && cloudUpdatedAt > localCloudUpdatedAt ? cloudPageState : localState;
   if (stateToApply) {
     applyPageState(stateToApply);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToApply));
@@ -848,7 +941,9 @@ function exportHtml() {
 
 function bindEvents() {
   toggleEditButton?.addEventListener("click", () => setEditing(!editing));
-  saveButton?.addEventListener("click", () => saveState());
+  localSaveButton?.addEventListener("click", () => saveLocalState());
+  saveButton?.addEventListener("click", publishState);
+  refreshCloudButton?.addEventListener("click", () => refreshFromCloud());
   cloudSettingsButton?.addEventListener("click", configureGithubToken);
   exportButton?.addEventListener("click", exportHtml);
 
@@ -879,14 +974,18 @@ function bindEvents() {
   positionDimensionWheel(
     Number(document.querySelector("[data-dimension].active")?.dataset.dimension || 0),
   );
+
+  document.querySelectorAll("[data-case]").forEach((button) => {
+    button.addEventListener("click", () => setCase(Number(button.dataset.case)));
+  });
+
+  if (globalEventsBound) return;
+  globalEventsBound = true;
+
   window.addEventListener("resize", () => {
     positionDimensionWheel(
       Number(document.querySelector("[data-dimension].active")?.dataset.dimension || 0),
     );
-  });
-
-  document.querySelectorAll("[data-case]").forEach((button) => {
-    button.addEventListener("click", () => setCase(Number(button.dataset.case)));
   });
 
   document.addEventListener("input", (event) => {

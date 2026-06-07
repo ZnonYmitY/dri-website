@@ -28,7 +28,7 @@ http://localhost:8000
 
 ## 网页端编辑保存
 
-网页端默认先保存到当前浏览器。若要让其他设备也看到修改，需要在编辑模式点击“连接云端”，粘贴具备 `Contents: Read and write` 权限的 GitHub fine-grained token；之后点击“一键保存”会更新仓库中的 `site-state.json`，其他设备打开页面时会自动读取这份公共状态。
+网页端默认先保存到当前浏览器。若要让其他设备也看到修改，需要在编辑模式点击“连接 GitHub”，粘贴具备 `Contents: Read and write` 权限的 GitHub fine-grained token；之后点击“发布云端”会更新仓库中的 `site-state.json`。其他设备打开页面时会自动读取这份公共状态，也可以点击“从云端刷新”主动拉取。
 
 公开访问链接：
 
