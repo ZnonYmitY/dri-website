@@ -18,4 +18,10 @@ http://localhost:8000
 
 当前推荐使用 GitHub Pages 的 `Deploy from a branch`，从 `main` 分支根目录发布。
 
+公开访问链接：
+
+```text
+https://znonymity.github.io/dri-website/
+```
+
 更多维护说明见 [WEBSITE.md](WEBSITE.md)。
