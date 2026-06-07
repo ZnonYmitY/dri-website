@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>指南针 - AI DRI 指南针</title>
+    <title>核心概念 - AI DRI 指南针</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -21,9 +21,9 @@
           <span>AI DRI 指南针</span>
         </a>
         <nav class="nav" aria-label="主导航">
-          <a class="active" data-nav-key="guide" href="guide.html">指南针</a>
+          <a class="active" data-nav-key="guide" href="guide.html">核心概念</a>
           <a data-nav-key="map" href="map.html">能力地图</a>
-          <a data-nav-key="cases" href="cases.html">实践案例</a>
+          <a data-nav-key="cases" href="cases.html">常见误区</a>
           <a data-nav-key="resources" href="resources.html">成长路径</a>
           <a data-nav-key="about" href="index.html#about">关于我们</a>
         </nav>
@@ -44,54 +44,33 @@
 
         <section class="prototype-card">
           <div class="concept-tabs" role="tablist" aria-label="AI 核心概念">
-            <button class="active" type="button">LLM</button>
-            <button type="button">Prompt</button>
-            <button type="button">RAG</button>
-            <button type="button">Agent</button>
-            <button type="button">Eval</button>
+            <button class="active" type="button" data-concept="llm">LLM</button>
+            <button type="button" data-concept="prompt">Prompt</button>
+            <button type="button" data-concept="rag">RAG</button>
+            <button type="button" data-concept="agent">Agent</button>
+            <button type="button" data-concept="eval">Eval</button>
           </div>
           <div class="concept-feature">
             <div class="video-placeholder">
-              <button class="video-play" type="button" aria-label="播放 LLM 介绍">▶</button>
+              <button class="video-play" type="button" aria-label="播放核心概念介绍">▶</button>
               <div class="video-bar"><strong>▶</strong><span></span><small>01:32 / 04:20</small></div>
             </div>
             <div class="concept-copy">
-              <h2>LLM</h2>
-              <p>大语言模型，擅长理解、生成、总结、推理，但会犯错，也不天然懂业务。</p>
+              <h2 id="conceptTitle">LLM</h2>
+              <p id="conceptIntro">大语言模型，擅长理解、生成、总结、推理，但会犯错，也不天然懂业务。</p>
               <div class="concept-point">
-                <span class="concept-icon">👍</span>
-                <div><h3>它擅长什么</h3><p>理解文本、生成内容、信息提炼、基础推理。</p></div>
+                <span class="concept-icon" id="conceptIconOne">好</span>
+                <div><h3 id="conceptPointTitleOne">它擅长什么</h3><p id="conceptPointTextOne">理解文本、生成内容、信息提炼、基础推理。</p></div>
               </div>
               <div class="concept-point">
-                <span class="concept-icon">↓</span>
-                <div><h3>它不擅长什么</h3><p>天然掌握企业知识、稳定执行复杂流程、自动保证正确。</p></div>
+                <span class="concept-icon" id="conceptIconTwo">限</span>
+                <div><h3 id="conceptPointTitleTwo">它不擅长什么</h3><p id="conceptPointTextTwo">天然掌握企业知识、稳定执行复杂流程、自动保证正确。</p></div>
               </div>
               <div class="concept-point">
-                <span class="concept-icon">?</span>
-                <div><h3>你该如何理解</h3><p>LLM 是能力底座，不等于完整解决方案。</p></div>
+                <span class="concept-icon" id="conceptIconThree">想</span>
+                <div><h3 id="conceptPointTitleThree">你该如何理解</h3><p id="conceptPointTextThree">LLM 是能力底座，不等于完整解决方案。</p></div>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h2>不要混淆</h2>
-          <ul class="plain-list">
-            <li><span class="mini-icon">P</span><p>Prompt 解决的是表达问题。</p></li>
-            <li><span class="mini-icon">R</span><p>RAG 解决的是知识问题。</p></li>
-            <li><span class="mini-icon">A</span><p>Agent 解决的是执行链路问题。</p></li>
-            <li><span class="mini-icon">E</span><p>Eval 解决的是可靠性问题。</p></li>
-          </ul>
-        </section>
-
-        <section class="section-card">
-          <h2>五个概念一览</h2>
-          <div class="card-grid">
-            <article class="info-card"><span class="mini-icon">L</span><h3>LLM</h3><p>大语言模型，负责理解与生成。</p></article>
-            <article class="info-card"><span class="mini-icon">P</span><h3>Prompt</h3><p>任务说明书，定义目标与约束。</p></article>
-            <article class="info-card"><span class="mini-icon">R</span><h3>RAG</h3><p>先查知识，再给答案。</p></article>
-            <article class="info-card"><span class="mini-icon">A</span><h3>Agent</h3><p>可执行任务的工作流。</p></article>
-            <article class="info-card"><span class="mini-icon">E</span><h3>Eval</h3><p>决定能否上线的评估体系。</p></article>
           </div>
         </section>
       </main>

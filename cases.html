@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>实践案例 - AI DRI 指南针</title>
+    <title>常见误区 - AI DRI 指南针</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -16,9 +16,9 @@
           <span>AI DRI 指南针</span>
         </a>
         <nav class="nav" aria-label="主导航">
-          <a data-nav-key="guide" href="guide.html">指南针</a>
+          <a data-nav-key="guide" href="guide.html">核心概念</a>
           <a data-nav-key="map" href="map.html">能力地图</a>
-          <a class="active" data-nav-key="cases" href="cases.html">实践案例</a>
+          <a class="active" data-nav-key="cases" href="cases.html">常见误区</a>
           <a data-nav-key="resources" href="resources.html">成长路径</a>
           <a data-nav-key="about" href="index.html#about">关于我们</a>
         </nav>
@@ -42,52 +42,46 @@
 
         <section class="prototype-card">
           <div class="case-tabs" role="tablist" aria-label="误区">
-            <button type="button">误区一</button>
-            <button class="active" type="button">误区二</button>
-            <button type="button">误区三</button>
-            <button type="button">误区四</button>
-            <button type="button">误区五</button>
+            <button class="active" type="button" data-case="0">误区一</button>
+            <button type="button" data-case="1">误区二</button>
+            <button type="button" data-case="2">误区三</button>
+            <button type="button" data-case="3">误区四</button>
+            <button type="button" data-case="4">误区五</button>
           </div>
-          <div class="case-detail">
-            <article>
-              <h2>误区二：Demo 跑通 = 项目可上线</h2>
-              <p class="pill">高频误判</p>
-              <h3>错误判断</h3>
-              <p>很多团队把 Demo 跑通，当成项目已经具备上线条件。但 Demo 只说明“某一刻能工作”，并不等于真实环境里可稳定交付。</p>
-            </article>
-            <aside class="correction-box">
-              <h3>校正</h3>
-              <h2>上线需要 Eval、兜底、风险分层和用户反馈。</h2>
-              <p><span class="pill">Eval 评估</span> <span class="pill">兜底策略</span> <span class="pill">风险分层</span> <span class="pill">用户反馈</span></p>
-              <a class="button secondary" href="guide.html">查看完整案例 →</a>
-            </aside>
+          <div class="case-slider" aria-live="polite">
+            <div class="case-slide-track">
+              <div class="case-slide">
+                <div class="case-detail">
+                  <article><h2>误区一：会用 AI 工具 = 具备 AI 能力</h2><p class="pill">基础误判</p><h3>错误判断</h3><p>把工具熟练度当成项目能力，容易忽略问题定义、价值判断和落地闭环。</p></article>
+                  <aside class="correction-box"><h3>校正</h3><h2>工具只是入口，DRI 要对价值闭环负责。</h2><p><span class="pill">问题定义</span> <span class="pill">价值路径</span> <span class="pill">结果负责</span></p></aside>
+                </div>
+              </div>
+              <div class="case-slide">
+                <div class="case-detail">
+                  <article><h2>误区二：Demo 跑通 = 项目可上线</h2><p class="pill">高频误判</p><h3>错误判断</h3><p>很多团队把 Demo 跑通，当成项目已经具备上线条件。但 Demo 只说明“某一刻能工作”。</p></article>
+                  <aside class="correction-box"><h3>校正</h3><h2>上线需要 Eval、兜底、风险分层和用户反馈。</h2><p><span class="pill">Eval 评估</span> <span class="pill">兜底策略</span> <span class="pill">风险分层</span> <span class="pill">用户反馈</span></p></aside>
+                </div>
+              </div>
+              <div class="case-slide">
+                <div class="case-detail">
+                  <article><h2>误区三：AI 项目是算法或研发的事</h2><p class="pill">责任误判</p><h3>错误判断</h3><p>把 AI 项目完全交给技术侧，业务目标、场景约束和验收标准就容易缺位。</p></article>
+                  <aside class="correction-box"><h3>校正</h3><h2>业务 DRI 必须定义问题、提供上下文并判断价值。</h2><p><span class="pill">业务上下文</span> <span class="pill">验收标准</span> <span class="pill">协同边界</span></p></aside>
+                </div>
+              </div>
+              <div class="case-slide">
+                <div class="case-detail">
+                  <article><h2>误区四：AI 越自动化越好</h2><p class="pill">流程误判</p><h3>错误判断</h3><p>过早追求全自动，会把不稳定结果直接推到真实用户和业务流程里。</p></article>
+                  <aside class="correction-box"><h3>校正</h3><h2>先做人机协同，再逐步沉淀可自动化的链路。</h2><p><span class="pill">人机分工</span> <span class="pill">检查点</span> <span class="pill">渐进上线</span></p></aside>
+                </div>
+              </div>
+              <div class="case-slide">
+                <div class="case-detail">
+                  <article><h2>误区五：Prompt 写得好就够了</h2><p class="pill">方法误判</p><h3>错误判断</h3><p>只优化提示词，往往无法解决知识缺口、工具链路、数据质量和评估问题。</p></article>
+                  <aside class="correction-box"><h3>校正</h3><h2>效果来自上下文、知识、工具、流程和评估的组合。</h2><p><span class="pill">上下文</span> <span class="pill">知识</span> <span class="pill">工具</span> <span class="pill">评估</span></p></aside>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
-
-        <section class="section-card">
-          <h2>五个误区总览</h2>
-          <div class="card-grid three">
-            <article class="info-card"><span class="mini-icon">1</span><h3>会用 AI 工具 = 具备 AI 能力</h3><p>工具使用只是入口，DRI 要对价值闭环负责。</p></article>
-            <article class="info-card active"><span class="mini-icon">2</span><h3>Demo 跑通 = 项目可上线</h3><p>上线需要 Eval、兜底、风险分层和用户反馈。</p></article>
-            <article class="info-card"><span class="mini-icon">3</span><h3>AI 项目是算法或研发的事</h3><p>业务 DRI 要定义问题、提供上下文、判断价值和推动闭环。</p></article>
-            <article class="info-card"><span class="mini-icon">4</span><h3>AI 越自动化越好</h3><p>很多早期场景应该先做人机协同，而不是全自动。</p></article>
-            <article class="info-card"><span class="mini-icon">5</span><h3>Prompt 写得好就够了</h3><p>真正决定效果的是上下文、知识、工具、流程和评估。</p></article>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h2>交互方式参考</h2>
-          <div class="card-grid four">
-            <article class="info-card"><span class="mini-icon">翻</span><h3>翻牌卡片</h3><p>点击后从“误区”翻到“校正”。</p></article>
-            <article class="info-card"><span class="mini-icon">测</span><h3>判断式自测</h3><p>先让用户选择是否认同，再揭示解析。</p></article>
-            <article class="info-card"><span class="mini-icon">抽</span><h3>对比抽屉</h3><p>左侧展示错误观点，右侧抽屉展开正确做法。</p></article>
-            <article class="info-card"><span class="mini-icon">进</span><h3>进度式学习</h3><p>按 1/5 学习误区，可配合收藏与复盘记录。</p></article>
-          </div>
-        </section>
-
-        <section class="banner-note">
-          <span class="brand-mark" aria-hidden="true">⌖</span>
-          <p>误区不是为了纠错别人，而是为了让 AI 项目少走弯路。</p>
         </section>
       </main>
     </div>

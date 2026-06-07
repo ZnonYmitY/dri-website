@@ -16,9 +16,9 @@
           <span>AI DRI 指南针</span>
         </a>
         <nav class="nav" aria-label="主导航">
-          <a data-nav-key="guide" href="guide.html">指南针</a>
+          <a data-nav-key="guide" href="guide.html">核心概念</a>
           <a class="active" data-nav-key="map" href="map.html">能力地图</a>
-          <a data-nav-key="cases" href="cases.html">实践案例</a>
+          <a data-nav-key="cases" href="cases.html">常见误区</a>
           <a data-nav-key="resources" href="resources.html">成长路径</a>
           <a data-nav-key="about" href="index.html#about">关于我们</a>
         </nav>
@@ -42,36 +42,23 @@
             <div class="radar-map">
               <div class="radar-ring"></div>
               <div class="radar-center">AI 时代<br />DRI</div>
-              <article class="radar-node"><strong>1</strong><p>用户洞察与问题定义</p></article>
-              <article class="radar-node"><strong>2</strong><p>领域知识与业务链路理解</p></article>
-              <article class="radar-node"><strong>3</strong><p>AI 机会判断</p></article>
-              <article class="radar-node"><strong>4</strong><p>Agent 与工作流编排</p></article>
-              <article class="radar-node"><strong>5</strong><p>数据、知识与上下文工程</p></article>
-              <article class="radar-node"><strong>6</strong><p>评估、安全与质量闭环</p></article>
-              <article class="radar-node"><strong>7</strong><p>产品化、运营与组织推动</p></article>
+              <button class="radar-node" type="button" data-dimension="0"><strong>1</strong><span>用户洞察与问题定义</span></button>
+              <button class="radar-node" type="button" data-dimension="1"><strong>2</strong><span>领域知识与业务链路理解</span></button>
+              <button class="radar-node active" type="button" data-dimension="2"><strong>3</strong><span>AI 机会判断</span></button>
+              <button class="radar-node" type="button" data-dimension="3"><strong>4</strong><span>Agent 与工作流编排</span></button>
+              <button class="radar-node" type="button" data-dimension="4"><strong>5</strong><span>数据、知识与上下文工程</span></button>
+              <button class="radar-node" type="button" data-dimension="5"><strong>6</strong><span>评估、安全与质量闭环</span></button>
+              <button class="radar-node" type="button" data-dimension="6"><strong>7</strong><span>产品化、运营与组织推动</span></button>
             </div>
             <aside class="side-note">
-              <h2>3. AI 机会判断</h2>
-              <p>能否判断什么适合 AI，什么只是看起来适合。</p>
+              <h2 id="dimensionTitle">3. AI 机会判断</h2>
+              <p id="dimensionIntro">能否判断什么适合 AI，什么只是看起来适合。</p>
               <div class="correction-box">
                 <h3>你需要能回答的问题</h3>
-                <p>这个问题为什么值得 AI 化？AI 能带来效率、质量还是体验增益？哪些环节其实不适合交给 AI？</p>
+                <p id="dimensionQuestions">这个问题为什么值得 AI 化？AI 能带来效率、质量还是体验增益？哪些环节其实不适合交给 AI？</p>
               </div>
-              <a class="button secondary" href="resources.html">查看完整等级说明 →</a>
+              <a class="button secondary" href="resources.html">查看成长路径 →</a>
             </aside>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h2>七个能力维度概览</h2>
-          <div class="card-grid four">
-            <article class="info-card"><span class="mini-icon">1</span><h3>用户洞察与问题定义</h3><p>能否找到真正值得 AI 化的问题。</p></article>
-            <article class="info-card"><span class="mini-icon">2</span><h3>领域知识与业务链路理解</h3><p>能否理解上下游、指标、约束和业务后果。</p></article>
-            <article class="info-card active"><span class="mini-icon">3</span><h3>AI 机会判断</h3><p>能否判断什么适合 AI，什么只是看起来适合。</p></article>
-            <article class="info-card"><span class="mini-icon">4</span><h3>Agent 与工作流编排</h3><p>能否把任务拆成可执行、可兜底、可持续迭代的链路。</p></article>
-            <article class="info-card"><span class="mini-icon">5</span><h3>数据、知识与上下文工程</h3><p>能否把业务经验沉淀为 AI 可用的知识资产。</p></article>
-            <article class="info-card"><span class="mini-icon">6</span><h3>评估、安全与质量闭环</h3><p>能否判断 AI 是否可靠、是否值得上线。</p></article>
-            <article class="info-card"><span class="mini-icon">7</span><h3>产品化、运营与组织推动</h3><p>能否让 AI 能力被团队持续复用。</p></article>
           </div>
         </section>
       </main>

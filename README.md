@@ -8,7 +8,7 @@
 - `guide.html`：5 个 AI 核心概念速通
 - `map.html`：7 个能力维度地图
 - `cases.html`：5 个常见误区
-- `resources.html`：成长路径与内容预留区
+- `resources.html`：成长路径
 
 ## 本地预览
 

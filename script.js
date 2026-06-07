@@ -1,10 +1,10 @@
 const STORAGE_KEY = `ai-dri-guide-page-state:${window.location.pathname}`;
 const GLOBAL_NAV_KEY = "ai-dri-guide-global-nav";
-const STATE_VERSION = 4;
+const STATE_VERSION = 5;
 const defaultNavLabels = {
-  guide: "指南针",
+  guide: "核心概念",
   map: "能力地图",
-  cases: "实践案例",
+  cases: "常见误区",
   resources: "成长路径",
   about: "关于我们",
 };
@@ -36,7 +36,8 @@ const nonEditableSelector = [
   ".round-nav",
   ".quiz-dots",
   ".tag-popover",
-  ".site-header a",
+  ".site-header .brand",
+  ".site-header .nav a:not(.active)",
 ].join(",");
 
 const quizQuestions = [
@@ -127,6 +128,92 @@ const popoverContent = {
     text: "把 AI 能力放到真实使用场景中，追踪用户价值、风险和复用空间，形成持续迭代机制。",
   },
 };
+
+const conceptDetails = {
+  llm: {
+    title: "LLM",
+    intro: "大语言模型，擅长理解、生成、总结、推理，但会犯错，也不天然懂业务。",
+    points: [
+      ["好", "它擅长什么", "理解文本、生成内容、信息提炼、基础推理。"],
+      ["限", "它不擅长什么", "天然掌握企业知识、稳定执行复杂流程、自动保证正确。"],
+      ["想", "你该如何理解", "LLM 是能力底座，不等于完整解决方案。"],
+    ],
+  },
+  prompt: {
+    title: "Prompt",
+    intro: "Prompt 是任务说明和约束表达，先把目标、背景、角色、格式说清楚。",
+    points: [
+      ["写", "留出内容位置", "这里可放提示词结构、示例和常见改写方式。"],
+      ["限", "不要只靠它", "复杂业务不能只靠一句提示词稳定解决。"],
+      ["练", "你该如何理解", "Prompt 是沟通接口，不是完整系统。"],
+    ],
+  },
+  rag: {
+    title: "RAG",
+    intro: "RAG 负责把外部知识带入模型回答，让 AI 不只依赖参数记忆。",
+    points: [
+      ["查", "留出内容位置", "这里可放知识库、检索、引用和更新机制。"],
+      ["限", "需要补充什么", "检索质量、知识颗粒度和权限边界都要设计。"],
+      ["用", "你该如何理解", "RAG 解决的是知识接入，不自动解决业务判断。"],
+    ],
+  },
+  agent: {
+    title: "Agent",
+    intro: "Agent 把目标拆成步骤、工具调用、记忆和检查点，面向任务运行。",
+    points: [
+      ["跑", "留出内容位置", "这里可放工作流、工具、状态和异常处理。"],
+      ["控", "需要补充什么", "越接近真实业务，越需要可观察、可回滚、可兜底。"],
+      ["链", "你该如何理解", "Agent 是执行链路，不是放任 AI 自己发挥。"],
+    ],
+  },
+  eval: {
+    title: "Eval",
+    intro: "Eval 是判断 AI 能否上线、是否可靠、如何持续优化的评估体系。",
+    points: [
+      ["测", "留出内容位置", "这里可放样例集、指标、人工校验和线上反馈。"],
+      ["准", "需要补充什么", "评估要贴近真实任务，而不是只看单次回答好不好。"],
+      ["迭", "你该如何理解", "Eval 决定 AI 能力能否从 Demo 走向生产。"],
+    ],
+  },
+};
+
+const dimensionDetails = [
+  {
+    title: "1. 用户洞察与问题定义",
+    intro: "能否找到真正值得 AI 化的问题。",
+    questions: "用户痛点是什么？问题是否足够具体？AI 介入后能带来可验证的价值吗？",
+  },
+  {
+    title: "2. 领域知识与业务链路理解",
+    intro: "能否理解上下游、指标、约束和业务后果。",
+    questions: "这个任务处在什么业务链路里？输入输出依赖谁？失败会影响哪些结果？",
+  },
+  {
+    title: "3. AI 机会判断",
+    intro: "能否判断什么适合 AI，什么只是看起来适合。",
+    questions: "这个问题为什么值得 AI 化？AI 能带来效率、质量还是体验增益？哪些环节其实不适合交给 AI？",
+  },
+  {
+    title: "4. Agent 与工作流编排",
+    intro: "能否把任务拆成可执行、可兜底、可持续迭代的链路。",
+    questions: "任务步骤是什么？哪些步骤交给 AI，哪些保留人工确认？异常时如何中断和回退？",
+  },
+  {
+    title: "5. 数据、知识与上下文工程",
+    intro: "能否把业务经验沉淀为 AI 可用的知识资产。",
+    questions: "AI 需要哪些上下文？知识如何组织和更新？数据权限、口径和质量如何保证？",
+  },
+  {
+    title: "6. 评估、安全与质量闭环",
+    intro: "能否判断 AI 是否可靠、是否值得上线。",
+    questions: "如何构建样例集？质量阈值是什么？风险、误判和安全问题如何监控？",
+  },
+  {
+    title: "7. 产品化、运营与组织推动",
+    intro: "能否让 AI 能力被团队持续复用。",
+    questions: "能力如何被更多人使用？谁负责运营和反馈？如何沉淀为平台、模板或规范？",
+  },
+];
 
 let editing = false;
 let currentQuestion = 0;
@@ -300,6 +387,56 @@ function showResult({ scroll = true } = {}) {
   });
 }
 
+function setConcept(key) {
+  const detail = conceptDetails[key];
+  if (!detail) return;
+  document.querySelectorAll("[data-concept]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.concept === key);
+  });
+
+  const fields = [
+    ["conceptTitle", detail.title],
+    ["conceptIntro", detail.intro],
+    ["conceptIconOne", detail.points[0][0]],
+    ["conceptPointTitleOne", detail.points[0][1]],
+    ["conceptPointTextOne", detail.points[0][2]],
+    ["conceptIconTwo", detail.points[1][0]],
+    ["conceptPointTitleTwo", detail.points[1][1]],
+    ["conceptPointTextTwo", detail.points[1][2]],
+    ["conceptIconThree", detail.points[2][0]],
+    ["conceptPointTitleThree", detail.points[2][1]],
+    ["conceptPointTextThree", detail.points[2][2]],
+  ];
+  fields.forEach(([id, value]) => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value;
+  });
+}
+
+function setDimension(index) {
+  const detail = dimensionDetails[index];
+  if (!detail) return;
+  document.querySelectorAll("[data-dimension]").forEach((button) => {
+    button.classList.toggle("active", Number(button.dataset.dimension) === index);
+  });
+
+  const title = document.getElementById("dimensionTitle");
+  const intro = document.getElementById("dimensionIntro");
+  const questions = document.getElementById("dimensionQuestions");
+  if (title) title.textContent = detail.title;
+  if (intro) intro.textContent = detail.intro;
+  if (questions) questions.textContent = detail.questions;
+}
+
+function setCase(index) {
+  const track = document.querySelector(".case-slide-track");
+  if (!track) return;
+  document.querySelectorAll("[data-case]").forEach((button) => {
+    button.classList.toggle("active", Number(button.dataset.case) === index);
+  });
+  track.style.transform = `translateX(-${index * 100}%)`;
+}
+
 function showPopover(key, anchor) {
   const content = popoverContent[key];
   if (!content || !popover) return;
@@ -341,6 +478,20 @@ function normalizeNavLinks() {
   });
 }
 
+function migratedNavLabels(labels) {
+  const nextLabels = { ...labels };
+  if (nextLabels.guide === "指南针") {
+    nextLabels.guide = defaultNavLabels.guide;
+  }
+  if (nextLabels.cases === "实践案例") {
+    nextLabels.cases = defaultNavLabels.cases;
+  }
+  if (nextLabels.resources === "资源库") {
+    nextLabels.resources = defaultNavLabels.resources;
+  }
+  return nextLabels;
+}
+
 function navLabels() {
   normalizeNavLinks();
   return Array.from(document.querySelectorAll(".site-header .nav a[data-nav-key]")).reduce(
@@ -356,11 +507,12 @@ function applyNavLabels() {
   normalizeNavLinks();
   let savedLabels = {};
   try {
-    savedLabels = JSON.parse(localStorage.getItem(GLOBAL_NAV_KEY) || "{}");
+    savedLabels = migratedNavLabels(JSON.parse(localStorage.getItem(GLOBAL_NAV_KEY) || "{}"));
   } catch {
     localStorage.removeItem(GLOBAL_NAV_KEY);
   }
   const labels = { ...defaultNavLabels, ...savedLabels };
+  localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(labels));
   document.querySelectorAll(".site-header .nav a[data-nav-key]").forEach((link) => {
     const label = labels[link.dataset.navKey];
     if (label) {
@@ -460,6 +612,34 @@ function bindEvents() {
     button.addEventListener("mouseleave", closePopover);
     button.addEventListener("blur", closePopover);
   });
+
+  document.querySelectorAll("[data-concept]").forEach((button) => {
+    button.addEventListener("click", () => setConcept(button.dataset.concept));
+  });
+
+  document.querySelectorAll("[data-dimension]").forEach((button) => {
+    button.addEventListener("click", () => setDimension(Number(button.dataset.dimension)));
+  });
+
+  document.querySelectorAll("[data-case]").forEach((button) => {
+    button.addEventListener("click", () => setCase(Number(button.dataset.case)));
+  });
+
+  document.addEventListener("input", (event) => {
+    if (!editing || !event.target.closest(".site-header .nav a[data-nav-key]")) return;
+    localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(navLabels()));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    const navLink = event.target.closest(".site-header .nav a[data-nav-key]");
+    if (!editing || !navLink) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      navLink.blur();
+      localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(navLabels()));
+    }
+  });
+
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closePopover();
