@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "updatedAt": 0,
+  "navLabels": {
+    "guide": "核心概念",
+    "map": "能力地图",
+    "cases": "常见误区",
+    "resources": "成长路径",
+    "about": "关于我们"
+  },
+  "pages": {}
+}

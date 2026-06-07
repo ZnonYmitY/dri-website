@@ -2,6 +2,13 @@ function canonicalPagePath(pathname) {
   return pathname.replace(/\/index\.html$/, "/");
 }
 
+function pageIdFromPath(pathname) {
+  const canonicalPath = canonicalPagePath(pathname);
+  if (canonicalPath.endsWith("/")) return "index";
+  const fileName = canonicalPath.split("/").filter(Boolean).pop() || "index";
+  return fileName.replace(/\.html$/, "") || "index";
+}
+
 function legacyStorageKeys(pathname) {
   const canonicalPath = canonicalPagePath(pathname);
   const keys = new Set([canonicalPath]);
@@ -11,11 +18,19 @@ function legacyStorageKeys(pathname) {
   return [...keys].map((path) => `ai-dri-guide-page-state:${path}`);
 }
 
-const STORAGE_KEY = `ai-dri-guide-page-state:${canonicalPagePath(window.location.pathname)}`;
-const LEGACY_STORAGE_KEYS = legacyStorageKeys(window.location.pathname).filter(
-  (key) => key !== STORAGE_KEY,
-);
+const PAGE_ID = pageIdFromPath(window.location.pathname);
+const STORAGE_KEY = `ai-dri-guide-page-state:${PAGE_ID}`;
+const LEGACY_STORAGE_KEYS = [
+  ...legacyStorageKeys(window.location.pathname),
+  `ai-dri-guide-page-state:${canonicalPagePath(window.location.pathname)}`,
+].filter((key, index, keys) => key !== STORAGE_KEY && keys.indexOf(key) === index);
 const GLOBAL_NAV_KEY = "ai-dri-guide-global-nav";
+const GITHUB_CONFIG_KEY = "ai-dri-guide-github-config";
+const CLOUD_STATE_URL = "site-state.json";
+const CLOUD_STATE_PATH = "site-state.json";
+const GITHUB_OWNER = "ZnonYmitY";
+const GITHUB_REPO = "dri-website";
+const GITHUB_BRANCH = "main";
 const STATE_VERSION = 6;
 const defaultNavLabels = {
   guide: "核心概念",
@@ -238,6 +253,7 @@ const answers = new Array(quizQuestions.length).fill(null);
 let toggleEditButton;
 let saveButton;
 let exportButton;
+let cloudSettingsButton;
 let saveStatus;
 let resultCard;
 let popover;
@@ -251,6 +267,24 @@ function refreshDomReferences() {
   resultCard = document.getElementById("quizResult");
   popover = document.getElementById("definitionPopover");
   hasQuiz = !!document.getElementById("quizOptions");
+  ensureCloudSettingsButton();
+}
+
+function ensureCloudSettingsButton() {
+  const editorBar = document.querySelector(".editor-bar");
+  const existingButton = document.getElementById("cloudSettings");
+  if (existingButton) {
+    cloudSettingsButton = existingButton;
+    return;
+  }
+  if (!editorBar) return;
+  const button = document.createElement("button");
+  button.className = "editor-button";
+  button.id = "cloudSettings";
+  button.type = "button";
+  button.textContent = "云端设置";
+  editorBar.insertBefore(button, saveStatus || null);
+  cloudSettingsButton = button;
 }
 
 function editableElements() {
@@ -518,6 +552,7 @@ function pageState() {
   });
   return {
     version: STATE_VERSION,
+    updatedAt: Date.now(),
     html: scopeClone.innerHTML,
     answers,
     currentQuestion,
@@ -576,45 +611,206 @@ function applyNavLabels() {
   });
 }
 
-function saveState(message = "已保存") {
-  localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(navLabels()));
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(pageState()));
-  LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
-  if (!saveStatus) return;
-  saveStatus.textContent = message;
+function githubConfig() {
+  try {
+    return JSON.parse(localStorage.getItem(GITHUB_CONFIG_KEY) || "{}");
+  } catch {
+    localStorage.removeItem(GITHUB_CONFIG_KEY);
+    return {};
+  }
+}
+
+function hasGithubToken() {
+  return !!githubConfig().token;
+}
+
+function updateCloudSettingsButton() {
+  if (!cloudSettingsButton) return;
+  cloudSettingsButton.textContent = hasGithubToken() ? "云端已连接" : "连接云端";
+}
+
+function configureGithubToken() {
+  const currentConfig = githubConfig();
+  const token = window.prompt(
+    "粘贴 GitHub fine-grained token（需要 Contents: Read and write）。token 只保存在当前浏览器，用于把编辑内容保存到仓库。",
+    currentConfig.token ? "已配置，重新粘贴可覆盖" : "",
+  );
+  if (!token || token === "已配置，重新粘贴可覆盖") return;
+  localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify({ token: token.trim() }));
+  updateCloudSettingsButton();
+  saveStatus.textContent = "云端已连接";
   window.setTimeout(() => {
     saveStatus.textContent = "";
   }, 1800);
 }
 
-function restoreState() {
+function encodeBase64Utf8(text) {
+  const bytes = new TextEncoder().encode(text);
+  let binary = "";
+  bytes.forEach((byte) => {
+    binary += String.fromCharCode(byte);
+  });
+  return btoa(binary);
+}
+
+function decodeBase64Utf8(text) {
+  const binary = atob(text.replace(/\n/g, ""));
+  const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+async function loadCloudState() {
+  try {
+    const response = await fetch(`${CLOUD_STATE_URL}?v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+async function fetchGithubState(token) {
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CLOUD_STATE_PATH}?ref=${GITHUB_BRANCH}`;
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${token}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
+  if (response.status === 404) {
+    return { sha: null, state: { version: 1, pages: {}, navLabels: defaultNavLabels } };
+  }
+  if (!response.ok) {
+    throw new Error("无法读取 GitHub 云端状态");
+  }
+  const data = await response.json();
+  return {
+    sha: data.sha,
+    state: JSON.parse(decodeBase64Utf8(data.content || "")),
+  };
+}
+
+async function saveCloudState(state) {
+  const { token } = githubConfig();
+  if (!token) {
+    saveStatus.textContent = "已本地保存；连接云端后可跨设备";
+    window.setTimeout(() => {
+      saveStatus.textContent = "";
+    }, 2400);
+    return;
+  }
+
+  saveStatus.textContent = "正在保存到云端...";
+  const remote = await fetchGithubState(token);
+  const nextState = {
+    version: 1,
+    ...remote.state,
+    pages: {
+      ...(remote.state.pages || {}),
+      [PAGE_ID]: state,
+    },
+    navLabels: navLabels(),
+    updatedAt: Date.now(),
+  };
+
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CLOUD_STATE_PATH}`;
+  const body = {
+    message: `Update site content for ${PAGE_ID}`,
+    content: encodeBase64Utf8(`${JSON.stringify(nextState, null, 2)}\n`),
+    branch: GITHUB_BRANCH,
+  };
+  if (remote.sha) {
+    body.sha = remote.sha;
+  }
+
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    throw new Error("云端保存失败，请检查 token 权限");
+  }
+  saveStatus.textContent = "已保存到云端，稍后全设备可见";
+  window.setTimeout(() => {
+    saveStatus.textContent = "";
+  }, 2600);
+}
+
+async function saveState(message = "已保存") {
+  localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(navLabels()));
+  const state = pageState();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+  if (!saveStatus) return;
+  saveStatus.textContent = message;
+  try {
+    await saveCloudState(state);
+  } catch (error) {
+    saveStatus.textContent = error.message || "云端保存失败，已本地保存";
+    window.setTimeout(() => {
+      saveStatus.textContent = "";
+    }, 3200);
+  }
+}
+
+function parseLocalState() {
   const stateKey = [STORAGE_KEY, ...LEGACY_STORAGE_KEYS].find((key) => localStorage.getItem(key));
   const raw = stateKey ? localStorage.getItem(stateKey) : null;
-  if (raw) {
-    try {
-      const state = JSON.parse(raw);
-      if (state.version !== STATE_VERSION) {
-        localStorage.removeItem(stateKey);
-      } else {
-        if (stateKey !== STORAGE_KEY) {
-          localStorage.setItem(STORAGE_KEY, raw);
-          localStorage.removeItem(stateKey);
-        }
-        if (state.html) {
-          document.querySelector(".editable-scope").innerHTML = state.html;
-        }
-        if (Array.isArray(state.answers)) {
-          state.answers.slice(0, answers.length).forEach((answer, index) => {
-            answers[index] = answer;
-          });
-        }
-        if (Number.isInteger(state.currentQuestion)) {
-          currentQuestion = Math.min(Math.max(state.currentQuestion, 0), quizQuestions.length - 1);
-        }
-      }
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
+  if (!raw) return null;
+  try {
+    const state = JSON.parse(raw);
+    if (state.version !== STATE_VERSION) {
+      localStorage.removeItem(stateKey);
+      return null;
     }
+    if (stateKey !== STORAGE_KEY) {
+      localStorage.setItem(STORAGE_KEY, raw);
+      localStorage.removeItem(stateKey);
+    }
+    return state;
+  } catch {
+    localStorage.removeItem(stateKey || STORAGE_KEY);
+    return null;
+  }
+}
+
+function applyPageState(state) {
+  if (!state) return;
+  if (state.html) {
+    document.querySelector(".editable-scope").innerHTML = state.html;
+  }
+  if (Array.isArray(state.answers)) {
+    state.answers.slice(0, answers.length).forEach((answer, index) => {
+      answers[index] = answer;
+    });
+  }
+  if (Number.isInteger(state.currentQuestion)) {
+    currentQuestion = Math.min(Math.max(state.currentQuestion, 0), quizQuestions.length - 1);
+  }
+}
+
+async function restoreState() {
+  const localState = parseLocalState();
+  const cloudState = await loadCloudState();
+  const cloudPageState = cloudState?.pages?.[PAGE_ID] || null;
+  if (cloudState?.navLabels) {
+    localStorage.setItem(GLOBAL_NAV_KEY, JSON.stringify(migratedNavLabels(cloudState.navLabels)));
+  }
+
+  const localUpdatedAt = localState?.updatedAt || 0;
+  const cloudUpdatedAt = cloudPageState?.updatedAt || cloudState?.updatedAt || 0;
+  const stateToApply = cloudPageState && cloudUpdatedAt >= localUpdatedAt ? cloudPageState : localState;
+  if (stateToApply) {
+    applyPageState(stateToApply);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToApply));
+    LEGACY_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
   }
   clearEditingAttributes();
   applyNavLabels();
@@ -653,6 +849,7 @@ function exportHtml() {
 function bindEvents() {
   toggleEditButton?.addEventListener("click", () => setEditing(!editing));
   saveButton?.addEventListener("click", () => saveState());
+  cloudSettingsButton?.addEventListener("click", configureGithubToken);
   exportButton?.addEventListener("click", exportHtml);
 
   document.getElementById("prevQuestion")?.addEventListener("click", () => {
@@ -721,12 +918,17 @@ function bindEvents() {
   });
 }
 
-restoreState();
-refreshDomReferences();
-setEditing(false);
-installImageUploaders();
-renderQuiz();
-bindEvents();
-if (hasQuiz && answers.every((answer) => answer !== null)) {
-  showResult({ scroll: false });
+async function initPage() {
+  await restoreState();
+  refreshDomReferences();
+  updateCloudSettingsButton();
+  setEditing(false);
+  installImageUploaders();
+  renderQuiz();
+  bindEvents();
+  if (hasQuiz && answers.every((answer) => answer !== null)) {
+    showResult({ scroll: false });
+  }
 }
+
+initPage();
