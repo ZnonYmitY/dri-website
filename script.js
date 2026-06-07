@@ -1,5 +1,5 @@
 const STORAGE_KEY = "ai-dri-guide-page-state";
-const STATE_VERSION = 2;
+const STATE_VERSION = 3;
 
 const editableSelector = [
   "h1",
@@ -15,7 +15,6 @@ const editableSelector = [
 
 const nonEditableSelector = [
   ".editor-bar",
-  ".modal-backdrop",
   ".popover",
   ".upload-chip",
   ".play",
@@ -121,9 +120,7 @@ const toggleEditButton = document.getElementById("toggleEdit");
 const saveButton = document.getElementById("savePage");
 const exportButton = document.getElementById("exportHtml");
 const saveStatus = document.getElementById("saveStatus");
-const resultModal = document.getElementById("resultModal");
-const closeModalButton = document.getElementById("closeModal");
-const reviewResultButton = document.getElementById("reviewResult");
+const resultCard = document.getElementById("quizResult");
 const popover = document.getElementById("definitionPopover");
 
 function editableElements() {
@@ -237,15 +234,30 @@ function selectAnswer(optionIndex) {
   }
 }
 
-function showResult() {
+function resultCopyForScore(score) {
+  if (score <= 10) {
+    return "你已经开始建立 AI DRI 意识。下一步可以先从问题定义和评估标准入手，把一次 AI 使用变成可复盘的业务实践。";
+  }
+  if (score <= 16) {
+    return "你已具备良好的 AI 协同意识，能够对齐业务价值并驱动初步落地。建议进一步提升评估优化与复利沉淀能力，向卓越型 DRI 迈进。";
+  }
+  return "你已经具备较完整的 AI DRI 能力结构。下一步可以把方法、评估和工作流沉淀为团队资产，放大复用价值。";
+}
+
+function showResult({ scroll = true } = {}) {
   const score = answers.reduce((sum, value) => sum + value + 1, 0);
   const level = score <= 10 ? "入门型 AI DRI" : score <= 16 ? "进阶型 AI DRI" : "精通型 AI DRI";
   document.getElementById("resultLevel").textContent = level;
-  resultModal.hidden = false;
-}
-
-function closeResult() {
-  resultModal.hidden = true;
+  document.getElementById("resultCopy").textContent = resultCopyForScore(score);
+  resultCard.hidden = false;
+  window.requestAnimationFrame(() => {
+    resultCard.classList.add("is-visible");
+    if (scroll) {
+      window.setTimeout(() => {
+        resultCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 120);
+    }
+  });
 }
 
 function showPopover(key, anchor) {
@@ -360,12 +372,6 @@ function bindEvents() {
     renderQuiz();
   });
 
-  closeModalButton.addEventListener("click", closeResult);
-  reviewResultButton.addEventListener("click", closeResult);
-  resultModal.addEventListener("click", (event) => {
-    if (event.target === resultModal) closeResult();
-  });
-
   document.querySelectorAll(".tag-popover").forEach((button) => {
     button.addEventListener("mouseenter", () => showPopover(button.dataset.popover, button));
     button.addEventListener("focus", () => showPopover(button.dataset.popover, button));
@@ -374,7 +380,6 @@ function bindEvents() {
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      closeResult();
       closePopover();
     }
   });
@@ -399,3 +404,6 @@ restoreState();
 installImageUploaders();
 renderQuiz();
 bindEvents();
+if (answers.every((answer) => answer !== null)) {
+  showResult({ scroll: false });
+}

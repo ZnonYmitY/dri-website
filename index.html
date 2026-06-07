@@ -136,6 +136,17 @@
             <button class="round-nav next" type="button" id="nextQuestion" aria-label="下一题">→</button>
           </div>
           <div class="quiz-dots" id="quizDots" aria-label="题目进度"></div>
+          <article class="quiz-result" id="quizResult" aria-live="polite" hidden>
+            <div class="result-medal" aria-hidden="true">✦</div>
+            <div>
+              <p class="result-kicker">自测已完成</p>
+              <h3>你的自测评级：<span id="resultLevel">进阶型 AI DRI</span></h3>
+              <p id="resultCopy">
+                你已具备良好的 AI 协同意识，能够对齐业务价值并驱动初步落地。
+                建议进一步提升评估优化与复利沉淀能力，向卓越型 DRI 迈进。
+              </p>
+            </div>
+          </article>
         </section>
 
         <section id="dri" class="dri-section section-card" aria-labelledby="dri-title">
@@ -208,20 +219,6 @@
         </section>
       </main>
 
-    </div>
-
-    <div class="modal-backdrop" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle" hidden>
-      <div class="result-modal">
-        <button class="modal-close" type="button" id="closeModal" aria-label="关闭">×</button>
-        <div class="medal" aria-hidden="true">✦</div>
-        <p class="result-kicker">自测已完成！</p>
-        <h2 id="resultTitle">你的自测评级：<span id="resultLevel">进阶型 AI DRI</span></h2>
-        <p id="resultCopy">
-          你已具备良好的 AI 协同意识，能够对齐业务价值并驱动初步落地。
-          建议进一步提升评估优化与复利沉淀能力，向卓越型 DRI 迈进。
-        </p>
-        <button class="button primary" type="button" id="reviewResult">查看我的结果</button>
-      </div>
     </div>
 
     <div class="popover" id="definitionPopover" role="dialog" aria-live="polite" hidden>
