@@ -709,7 +709,7 @@ async function fetchGithubState(token = "") {
     return { sha: null, state: { version: 1, pages: {}, navLabels: defaultNavLabels } };
   }
   if (!response.ok) {
-    throw new Error("无法读取 GitHub 云端状态");
+    throw new Error(`无法读取 GitHub 云端状态（${response.status}）`);
   }
   const data = await response.json();
   return {
@@ -783,14 +783,21 @@ async function saveCloudState(state) {
     method: "PUT",
     headers: {
       Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${config.token}`,
       "Content-Type": "application/json",
       "X-GitHub-Api-Version": "2022-11-28",
     },
     body: JSON.stringify(body),
   });
   if (!response.ok) {
-    throw new Error("云端保存失败，请检查 token 权限");
+    let detail = "";
+    try {
+      const errorBody = await response.json();
+      detail = errorBody.message ? `：${errorBody.message}` : "";
+    } catch {
+      detail = "";
+    }
+    throw new Error(`云端保存失败（${response.status}）${detail}`);
   }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudPageState));
   saveStatus.textContent = "已发布到云端，其他设备可刷新查看";
