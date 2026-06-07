@@ -11,29 +11,35 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="editor-bar" aria-label="编辑工具栏">
-      <button class="editor-button editor-primary" type="button" id="toggleEdit">
-        编辑模式
-        <span aria-hidden="true">›</span>
-      </button>
-      <button class="editor-button" type="button" id="savePage">一键保存</button>
-      <button class="editor-button" type="button" id="exportHtml">导出 HTML</button>
-      <span class="save-status" id="saveStatus" aria-live="polite"></span>
-    </div>
-
     <div class="page-shell editable-scope">
       <header class="site-header">
         <a class="brand" href="#top" aria-label="AI DRI 指南针首页">
-          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span class="brand-mark compass-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" role="img">
+              <circle cx="22" cy="22" r="18"></circle>
+              <path d="M26.8 17.2 23.9 29l-6.7-2.2 2.9-11.8 6.7 2.2Z"></path>
+              <path d="M20.1 15 17.2 26.8l6.7 2.2 2.9-11.8-6.7-2.2Z"></path>
+              <path d="M22 5v5M22 34v5M5 22h5M34 22h5"></path>
+            </svg>
+          </span>
           <span>AI DRI 指南针</span>
         </a>
         <nav class="nav" aria-label="主导航">
-          <a href="#top">指南针</a>
-          <a href="#assessment">能力地图</a>
-          <a href="#dri">实践案例</a>
-          <a href="#resources">资源库</a>
-          <a href="#about">关于我们</a>
+          <a href="#" data-future-page="guide.html">指南针</a>
+          <a href="#" data-future-page="map.html">能力地图</a>
+          <a href="#" data-future-page="cases.html">实践案例</a>
+          <a href="#" data-future-page="resources.html">资源库</a>
+          <a href="#" data-future-page="about.html">关于我们</a>
         </nav>
+        <div class="editor-bar" aria-label="编辑工具栏">
+          <button class="editor-button editor-primary" type="button" id="toggleEdit">
+            编辑模式
+            <span aria-hidden="true">›</span>
+          </button>
+          <button class="editor-button" type="button" id="savePage">一键保存</button>
+          <button class="editor-button" type="button" id="exportHtml">导出 HTML</button>
+          <span class="save-status" id="saveStatus" aria-live="polite"></span>
+        </div>
       </header>
 
       <main id="top">
@@ -163,11 +169,11 @@
                 <li>能复盘迭代、复利沉淀的人。</li>
               </ul>
               <div class="definition-tags" aria-label="定义详情">
-                <button type="button" class="tag-popover" data-popover="problem">问题定义</button>
-                <button type="button" class="tag-popover" data-popover="collab">AI 协同素养</button>
-                <button type="button" class="tag-popover" data-popover="agent">Agent 应用力</button>
-                <button type="button" class="tag-popover" data-popover="evaluate">评估 / 优化</button>
-                <button type="button" class="tag-popover" data-popover="launch">上线迭代</button>
+                <button type="button" class="tag-popover tag-row-1" data-popover="problem">问题定义</button>
+                <button type="button" class="tag-popover tag-row-2" data-popover="collab">AI 协同素养</button>
+                <button type="button" class="tag-popover tag-row-4" data-popover="agent">Agent 应用力</button>
+                <button type="button" class="tag-popover tag-row-5" data-popover="evaluate">评估 / 优化</button>
+                <button type="button" class="tag-popover tag-row-6" data-popover="launch">上线迭代</button>
               </div>
             </article>
           </div>
@@ -183,15 +189,15 @@
           <h2 id="why-title">为什么需要这套指南针</h2>
           <div class="faq-list">
             <details open>
-              <summary>1. 为什么本套定义把 DRI 视角放在价值工具的人？</summary>
+              <summary><span>1. 为什么本套定义把 DRI 视角放在价值工具的人？</span><span class="faq-plus" aria-hidden="true"></span></summary>
               <p>聚焦价值与 Prompt 工具是手段，DRI 定义强调对价值闭环负责和可沉淀闭环。</p>
             </details>
             <details>
-              <summary>2. 为什么现在尤其需要 DRI？</summary>
+              <summary><span>2. 为什么现在尤其需要 DRI？</span><span class="faq-plus" aria-hidden="true"></span></summary>
               <p>当 AI 从工具进入深水区并带来巨大不确定性，复杂控制需要明确的负责人。</p>
             </details>
             <details>
-              <summary>3. 这套指南针对哪些群体有用？</summary>
+              <summary><span>3. 这套指南针对哪些群体有用？</span><span class="faq-plus" aria-hidden="true"></span></summary>
               <p>面向业务负责人、业务驱动型组织者、想到入组织的管理者。</p>
             </details>
           </div>
@@ -202,16 +208,6 @@
         </section>
       </main>
 
-      <footer class="palette-footer">
-        <span>字节配色编号</span>
-        <span class="swatch" style="--color: #165dff">#165DFF</span>
-        <span class="swatch" style="--color: #4080ff">#4080FF</span>
-        <span class="swatch" style="--color: #e8f3ff">#E8F3FF</span>
-        <span class="swatch" style="--color: #f7f8fa">#F7F8FA</span>
-        <span class="swatch dark" style="--color: #1d2129">#1D2129</span>
-        <span class="swatch dark" style="--color: #4e5969">#4E5969</span>
-        <span class="swatch" style="--color: #c9cdd4">#C9CDD4</span>
-      </footer>
     </div>
 
     <div class="modal-backdrop" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle" hidden>
@@ -229,7 +225,6 @@
     </div>
 
     <div class="popover" id="definitionPopover" role="dialog" aria-live="polite" hidden>
-      <button class="popover-close" type="button" id="closePopover" aria-label="关闭定义浮窗">×</button>
       <h3 id="popoverTitle">问题定义</h3>
       <p id="popoverText">能够把模糊需求转化为清晰、可验证、可衡量的 AI 任务边界。</p>
     </div>

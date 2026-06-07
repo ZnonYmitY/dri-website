@@ -1,4 +1,5 @@
 const STORAGE_KEY = "ai-dri-guide-page-state";
+const STATE_VERSION = 2;
 
 const editableSelector = [
   "h1",
@@ -10,7 +11,6 @@ const editableSelector = [
   "summary",
   "strong",
   ".pill",
-  ".swatch",
 ].join(",");
 
 const nonEditableSelector = [
@@ -256,8 +256,9 @@ function showPopover(key, anchor) {
   popover.hidden = false;
 
   const rect = anchor.getBoundingClientRect();
-  const top = Math.min(window.innerHeight - 190, Math.max(110, rect.top - 24));
+  const top = Math.min(window.innerHeight - 190, Math.max(96, rect.top - 30));
   popover.style.top = `${top}px`;
+  popover.style.right = `${Math.max(24, window.innerWidth - rect.left + 18)}px`;
 }
 
 function closePopover() {
@@ -270,6 +271,7 @@ function pageState() {
     element.remove();
   });
   return {
+    version: STATE_VERSION,
     html: scopeClone.innerHTML,
     answers,
     currentQuestion,
@@ -289,6 +291,10 @@ function restoreState() {
   if (!raw) return;
   try {
     const state = JSON.parse(raw);
+    if (state.version !== STATE_VERSION) {
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
     if (state.html) {
       document.querySelector(".editable-scope").innerHTML = state.html;
     }
@@ -314,6 +320,9 @@ function cleanCloneForExport() {
     element.removeAttribute("spellcheck");
   });
   clone.querySelectorAll(".upload-chip, input[type='file']").forEach((element) => element.remove());
+  clone.querySelectorAll("[data-future-page]").forEach((element) => {
+    element.setAttribute("href", element.getAttribute("data-future-page") || "#");
+  });
   clone.querySelectorAll(".save-status").forEach((element) => {
     element.textContent = "";
   });
@@ -358,9 +367,11 @@ function bindEvents() {
   });
 
   document.querySelectorAll(".tag-popover").forEach((button) => {
-    button.addEventListener("click", () => showPopover(button.dataset.popover, button));
+    button.addEventListener("mouseenter", () => showPopover(button.dataset.popover, button));
+    button.addEventListener("focus", () => showPopover(button.dataset.popover, button));
+    button.addEventListener("mouseleave", closePopover);
+    button.addEventListener("blur", closePopover);
   });
-  document.getElementById("closePopover").addEventListener("click", closePopover);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeResult();
@@ -370,6 +381,14 @@ function bindEvents() {
 
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a");
+    if (link?.dataset.futurePage) {
+      event.preventDefault();
+      saveStatus.textContent = "子页面待建设";
+      window.setTimeout(() => {
+        saveStatus.textContent = "";
+      }, 1400);
+      return;
+    }
     if (editing && link && link.closest(".editable-scope")) {
       event.preventDefault();
     }
