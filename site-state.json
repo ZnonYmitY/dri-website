@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1780887932641,
+  "updatedAt": 1780888514769,
   "navLabels": {
     "guide": "核心概念",
     "map": "能力地图",
@@ -25,6 +25,23 @@
       "currentQuestion": 0,
       "syncStatus": "cloud",
       "cloudUpdatedAt": 1780887932641
+    },
+    "resources": {
+      "version": 6,
+      "updatedAt": 1780888512725,
+      "html": "\n      <header class=\"site-header\">\n        <a class=\"brand\" href=\"index.html\" aria-label=\"AI DRI 指南针首页\">\n          <span class=\"brand-mark compass-mark\" aria-hidden=\"true\">\n            <svg viewBox=\"0 0 44 44\" role=\"img\"><circle cx=\"22\" cy=\"22\" r=\"18\"></circle><path d=\"M26.8 17.2 23.9 29l-6.7-2.2 2.9-11.8 6.7 2.2Z\"></path><path d=\"M20.1 15 17.2 26.8l6.7 2.2 2.9-11.8-6.7-2.2Z\"></path><path d=\"M22 5v5M22 34v5M5 22h5M34 22h5\"></path></svg>\n          </span>\n          <span>AI DRI 指南针</span>\n        </a>\n        <nav class=\"nav\" aria-label=\"主导航\">\n          <a data-nav-key=\"guide\" href=\"guide.html\">核心概念</a>\n          <a data-nav-key=\"map\" href=\"map.html\">能力地图</a>\n          <a data-nav-key=\"cases\" href=\"cases.html\">常见误区</a>\n          <a class=\"active\" data-nav-key=\"resources\" href=\"resources.html\">成长路径</a>\n          <a data-nav-key=\"about\" href=\"index.html#about\">关于我们</a>\n        </nav>\n        <div class=\"editor-bar\" aria-label=\"编辑工具栏\">\n          <button class=\"editor-button editor-primary\" type=\"button\" id=\"toggleEdit\">编辑模式<span aria-hidden=\"true\">›</span></button>\n          <button class=\"editor-button\" id=\"saveLocal\" type=\"button\">保存本机</button><button class=\"editor-button\" type=\"button\" id=\"savePage\">发布云端</button>\n          <button class=\"editor-button\" id=\"refreshCloud\" type=\"button\">从云端刷新</button><button class=\"editor-button\" type=\"button\" id=\"exportHtml\">导出 HTML</button>\n          <button class=\"editor-button\" id=\"cloudSettings\" type=\"button\">GitHub 已连接</button><span class=\"save-status\" id=\"saveStatus\" aria-live=\"polite\"></span>\n        </div>\n      </header>\n\n      <main class=\"subpage-main\">\n        <section class=\"subpage-hero center\">\n          <p class=\"pill\">成长路径</p>\n          <h1>成长路径</h1>\n          <p><br></p>\n        </section>\n\n        <section class=\"path-columns\">\n          <article class=\"path-card\">\n            <span class=\"mini-icon\">文</span>\n            <p class=\"pill\">学习AI维度</p>\n            <h2>抖音经验丰富🦹‍♀️<div><span style=\"font-size: clamp(2.45rem, 3.5vw, 3.7rem); letter-spacing: 0px;\">AI浓度低</span></div></h2>\n            <p>适合从业务问题、流程拆解与价值判断切入。</p>\n            <div class=\"skeleton-line\"></div><div class=\"skeleton-line\"></div><div class=\"skeleton-line\"></div>\n            <div class=\"dashed-placeholder\">+ 待补充内容</div>\n            <div class=\"dashed-placeholder\">+ 案例 / 练习预留</div>\n            <a class=\"button secondary\" href=\"map.html\">查看成长路径</a>\n          </article>\n          <article class=\"path-card\">\n            <span class=\"mini-icon\">AI</span>\n            <p class=\"pill\">完善业务维度</p>\n            <h2>AI浓度高👩‍💻<div>缺少抖音经验</div></h2>\n            <p>适合从业务理解、场景落点与落地闭环切入。</p>\n            <div class=\"skeleton-line\"></div><div class=\"skeleton-line\"></div><div class=\"skeleton-line\"></div>\n            <div class=\"dashed-placeholder\">+ 待补充内容</div>\n            <div class=\"dashed-placeholder\">+ 案例 / 练习预留</div>\n            <a class=\"button secondary\" href=\"map.html\">查看成长路径</a>\n          </article>\n        </section>\n\n      </main>\n    ",
+      "answers": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "currentQuestion": 0,
+      "syncStatus": "cloud",
+      "cloudUpdatedAt": 1780888514769
     }
   }
 }
