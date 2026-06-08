@@ -315,7 +315,9 @@ h3 {
 }
 
 .single-media {
-  padding: 18px;
+  border: 0;
+  padding: 0;
+  background: transparent;
 }
 
 .hero-visual-card {
