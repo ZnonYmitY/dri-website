@@ -57,6 +57,7 @@ const editableSelector = [
   "summary",
   "strong",
   ".pill",
+  ".dashed-placeholder",
 ].join(",");
 
 const nonEditableSelector = [

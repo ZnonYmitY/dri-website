@@ -324,14 +324,14 @@ h3 {
   overflow: hidden;
   border: 1px solid #27445f;
   border-radius: 14px;
-  background: var(--surface-dark-elevated);
+  background: var(--surface);
 }
 
 .hero-visual-card img {
   display: block;
   width: 100%;
   height: 520px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .large-play {
