@@ -74,70 +74,205 @@ const nonEditableSelector = [
 
 const quizQuestions = [
   {
-    dimension: "认知定义",
-    question: "在 AI 驱动的项目中，DRI 最关键的职责是什么？",
+    id: "base",
+    dimension: "基础认知层",
+    question:
+      "场景：业务同学提出“能不能用 AI 做一个自动生成短视频脚本的功能”，希望你当天给出初步判断。你最可能先怎么做？",
     options: [
-      "A. 熟练使用工具完成任务",
-      "B. 明确业务目标并设计可验证的价值路径",
-      "C. 撰写完整的提示词让 AI 直接输出结果",
+      {
+        text: "A. 先找几个主流 AI 工具试一下，让模型生成几版脚本，看看效果是否像样；同时请算法或工程同学帮忙判断大概能不能做。",
+        level: "pro",
+      },
+      {
+        text: "B. 先拆清楚任务类型、输入输出、风格控制和结构化要求；再比较 Prompt、工作流、微调等方案的成本、效果和边界。",
+        level: "max5",
+      },
+      {
+        text: "C. 先判断这个能力在业务链路里的长期价值，再反推技术路线、数据需求、评测方式和阶段性投入节奏。",
+        level: "max20",
+      },
     ],
   },
   {
-    dimension: "AI 协同素养",
-    question: "你如何判断 AI 是否真的参与了价值创造？",
+    id: "guard",
+    dimension: "落地保障层",
+    question: "一个 AI Demo 看起来效果不错，准备上线前你最关注什么？",
     options: [
-      "A. 输出速度比人工更快",
-      "B. 能减少返工，并让协同边界更清楚",
-      "C. 能沉淀为团队持续复用的工作模式",
+      {
+        text: "A. 先确认主要流程能跑通，关键 bad case 不太离谱，有基础兜底方案。",
+        level: "pro",
+      },
+      {
+        text: "B. 建立评测指标、样例集、灰度策略、回退方案和风险边界，确认上线后如何观察效果。",
+        level: "max5",
+      },
+      {
+        text: "C. 把 Eval、工程化、安全、成本和线上反馈设计成持续运转的保障体系，而不是一次性上线检查。",
+        level: "max20",
+      },
     ],
   },
   {
-    dimension: "Agent 应用力",
-    question: "设计 Agent 工作流时，你最先确认什么？",
+    id: "efficiency",
+    dimension: "应用提效层",
+    question: "你更常如何把 AI 用进团队日常工作？",
     options: [
-      "A. 使用哪个模型",
-      "B. 任务步骤和人机交接点",
-      "C. 目标、约束、评估和异常处理闭环",
+      {
+        text: "A. 主要用于个人写作、总结、分析或生成内容，明显提升自己的工作效率。",
+        level: "pro",
+      },
+      {
+        text: "B. 把多个 AI 工具串成团队可复用流程，服务周报、分析、创意、运营等高频任务。",
+        level: "max5",
+      },
+      {
+        text: "C. 重新设计跨角色、跨环节的协作方式，让 AI 进入真实业务流程并持续验证收益。",
+        level: "max20",
+      },
     ],
   },
   {
-    dimension: "评估 / 优化",
-    question: "当 AI 结果不稳定时，你会优先做什么？",
+    id: "ml",
+    dimension: "机器学习与深度学习",
+    question: "当团队讨论模型能力边界时，你通常能做到哪一步？",
     options: [
-      "A. 多试几次直到结果可用",
-      "B. 建立样例集和评估标准",
-      "C. 追踪误差来源并迭代策略和流程",
+      { text: "A. 能听懂基础概念，知道模型不是万能的。", score: 1 },
+      { text: "B. 能判断训练数据、模型能力和任务目标之间是否匹配。", score: 2 },
+      { text: "C. 能把业务目标拆成模型能力、数据要求、评估口径和上线风险。", score: 3 },
     ],
   },
   {
-    dimension: "上线迭代",
-    question: "上线后的 AI 能力最需要关注什么？",
+    id: "rl",
+    dimension: "强化学习",
+    question: "面对需要持续优化策略的 AI 场景，你会怎么理解强化学习或反馈优化？",
     options: [
-      "A. 是否能正常访问",
-      "B. 用户是否真的持续使用",
-      "C. 是否能用数据闭环驱动版本迭代",
+      { text: "A. 知道它和“根据反馈变好”有关，但主要依赖技术同学判断。", score: 1 },
+      { text: "B. 能识别哪些场景需要奖励、反馈、探索和策略迭代。", score: 2 },
+      { text: "C. 能和算法、产品一起定义反馈信号、优化目标、风险约束和长期收益。", score: 3 },
     ],
   },
   {
-    dimension: "用户价值闭环",
-    question: "一个 AI 项目是否成功，最终应看什么？",
+    id: "multimodal",
+    dimension: "多模态",
+    question: "当业务里同时涉及图文、视频、音频或结构化数据时，你会怎么设计 AI 方案？",
     options: [
-      "A. 页面和 Demo 是否完整",
-      "B. 是否解决了明确用户问题",
-      "C. 是否产生可衡量、可复用、可扩展的价值",
+      { text: "A. 能想到用多模态模型处理不同类型输入。", score: 1 },
+      { text: "B. 能拆清楚每种模态的输入质量、输出形式和校验方式。", score: 2 },
+      { text: "C. 能设计跨模态的信息流、评估标准、异常处理和业务闭环。", score: 3 },
     ],
   },
   {
-    dimension: "复利沉淀",
-    question: "完成一次 AI 项目后，DRI 应该沉淀什么？",
+    id: "harness",
+    dimension: "Agent Harness",
+    question: "设计 Agent 或自动化工作流时，你最能把握什么？",
     options: [
-      "A. 项目截图和汇报材料",
-      "B. 方法、评估、模板和复盘",
-      "C. 可被下一轮直接调用的标准、流程与资产",
+      { text: "A. 能描述希望 Agent 完成哪些步骤。", score: 1 },
+      { text: "B. 能设计工具调用、状态流转、人机确认和失败兜底。", score: 2 },
+      { text: "C. 能把 Agent Harness 设计成可观测、可回滚、可扩展的业务执行系统。", score: 3 },
+    ],
+  },
+  {
+    id: "memory",
+    dimension: "上下文记忆管理",
+    question: "当 AI 需要理解历史信息、用户偏好或业务上下文时，你会怎么处理？",
+    options: [
+      { text: "A. 会把必要背景整理进提示词或文档里。", score: 1 },
+      { text: "B. 能区分短期上下文、长期记忆、知识库和权限边界。", score: 2 },
+      { text: "C. 能设计上下文选择、记忆更新、隐私权限和效果评估机制。", score: 3 },
+    ],
+  },
+  {
+    id: "design",
+    dimension: "AI 设计能力",
+    question: "你如何判断一个 AI 产品体验是否设计得好？",
+    options: [
+      { text: "A. 看用户是否能顺利得到一个结果。", score: 1 },
+      { text: "B. 看输入引导、结果解释、纠错反馈和用户掌控感是否完整。", score: 2 },
+      { text: "C. 能从用户任务、信任建立、失败恢复和价值闭环设计完整 AI 体验。", score: 3 },
+    ],
+  },
+  {
+    id: "toolchain",
+    dimension: "AI 工程化与工具链",
+    question: "当 AI 能力要从 Demo 走向稳定复用时，你会优先补什么？",
+    options: [
+      { text: "A. 先把功能接进现有页面或流程，保证能用。", score: 1 },
+      { text: "B. 补齐日志、监控、评测、配置和版本管理。", score: 2 },
+      { text: "C. 建立可复用工具链、工程规范、自动评测和持续迭代机制。", score: 3 },
     ],
   },
 ];
 
+const personaParts = {
+  base: {
+    pro: {
+      name: "识图者",
+      strength: "能听懂常见 AI 概念，并能大致判断大模型、Prompt、RAG、Agent 分别解决什么问题。",
+      gap: "练习独立判断技术方案，而不是主要依赖算法或工程同学给答案。",
+    },
+    max5: {
+      name: "选型者",
+      strength: "能根据具体业务场景判断该用 Prompt、RAG、微调、Agent 还是普通规则。",
+      gap: "把单点方案判断升级成阶段性技术路线，而不是只解决眼前需求。",
+    },
+    max20: {
+      name: "领航者",
+      strength: "能提前判断 AI 技术趋势会怎样影响业务，并帮助团队选择值得投入的方向。",
+      gap: "持续用真实业务数据校准判断，避免只基于技术趋势做决策。",
+    },
+  },
+  guard: {
+    pro: {
+      name: "守门员",
+      strength: "知道 AI 功能上线前不能只看 Demo，还要关注效果、风险和基础兜底。",
+      gap: "补齐评测集、bad case 回流、灰度、降级和成本监控这些上线动作。",
+    },
+    max5: {
+      name: "操盘手",
+      strength: "能为具体 AI 功能设计评测指标、上线方案、回退策略和风险控制。",
+      gap: "把每次上线经验沉淀成团队可复用的准入标准和检查清单。",
+    },
+    max20: {
+      name: "体系官",
+      strength: "能把 Eval、工程化、安全、成本和线上反馈串成一套持续运行的保障体系。",
+      gap: "保持对一线用户反馈的敏感度，避免体系只服务流程、不服务体验。",
+    },
+  },
+  efficiency: {
+    pro: {
+      name: "提效者",
+      strength: "能用 AI 辅助写作、总结、分析或生成内容，明显提升自己的工作效率。",
+      gap: "把个人用法整理成模板或流程，让同组同学也能稳定复用。",
+    },
+    max5: {
+      name: "流程师",
+      strength: "能把多个 AI 工具串成团队工作流，处理周报、分析、创意或运营等高频任务。",
+      gap: "用节省时间、输出质量和使用频率证明这套流程真的值得推广。",
+    },
+    max20: {
+      name: "重构者",
+      strength: "能重新设计团队工作方式，让 AI 进入跨角色、跨环节的真实业务流程。",
+      gap: "持续验证业务收益，避免把流程改造做成形式上的 AI 化。",
+    },
+  },
+  core: {
+    pro: {
+      name: "参与型 DRI",
+      strength: "能理解核心 AI 能力模块，并在产品、算法、工程讨论中提出基本判断。",
+      gap: "练习独立写出 AI 方案，包括输入输出、能力边界、评估方式和兜底逻辑。",
+    },
+    max5: {
+      name: "主导型 DRI",
+      strength: "能围绕具体业务问题主导 AI 方案设计，并推动产品、算法、工程一起落地。",
+      gap: "把单个项目经验抽象成方法论，让类似场景可以更快复用。",
+    },
+    max20: {
+      name: "架构型 DRI",
+      strength: "能从业务目标反推完整 AI 能力组合，设计从问题定义到价值闭环的端到端架构。",
+      gap: "持续关注用户价值和业务结果，避免方案技术完整但业务收益不足。",
+    },
+  },
+};
 const popoverContent = {
   problem: {
     title: "问题定义",
@@ -262,6 +397,8 @@ let resultCard;
 let popover;
 let hasQuiz = false;
 let globalEventsBound = false;
+let quizTouchStartX = 0;
+let quizTouchStartY = 0;
 
 function refreshDomReferences() {
   toggleEditButton = document.getElementById("toggleEdit");
@@ -398,8 +535,14 @@ function installImageUploaders() {
 function renderQuiz() {
   if (!hasQuiz) return;
   const item = quizQuestions[currentQuestion];
+  const isComplete = answers.every((answer) => answer !== null);
   document.getElementById("quizCount").textContent = `第 ${currentQuestion + 1} / ${quizQuestions.length} 题`;
   document.getElementById("quizQuestion").textContent = item.question;
+  renderQuizPreviewCards();
+  if (resultCard && !isComplete) {
+    resultCard.hidden = true;
+    resultCard.classList.remove("is-visible");
+  }
 
   const optionContainer = document.getElementById("quizOptions");
   optionContainer.innerHTML = "";
@@ -407,13 +550,28 @@ function renderQuiz() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `option${answers[currentQuestion] === optionIndex ? " selected" : ""}`;
-    button.textContent = option;
+    button.textContent = typeof option === "string" ? option : option.text;
     button.dataset.level = String(optionIndex + 1);
     button.addEventListener("click", () => selectAnswer(optionIndex));
     optionContainer.append(button);
   });
 
   renderDots();
+}
+
+function renderQuizPreviewCards() {
+  const previousIndex = (currentQuestion - 1 + quizQuestions.length) % quizQuestions.length;
+  const nextIndex = (currentQuestion + 1) % quizQuestions.length;
+  [
+    [document.querySelector(".quiz-card.ghost.left"), previousIndex],
+    [document.querySelector(".quiz-card.ghost.right"), nextIndex],
+  ].forEach(([card, index]) => {
+    if (!card) return;
+    const count = card.querySelector("p");
+    const title = card.querySelector("h3");
+    if (count) count.textContent = `第 ${index + 1} / ${quizQuestions.length} 题`;
+    if (title) title.textContent = quizQuestions[index].question;
+  });
 }
 
 function renderDots() {
@@ -445,22 +603,54 @@ function selectAnswer(optionIndex) {
   }
 }
 
-function resultCopyForScore(score) {
-  if (score <= 10) {
-    return "你已经开始建立 AI DRI 意识。下一步可以先从问题定义和评估标准入手，把一次 AI 使用变成可复盘的业务实践。";
-  }
-  if (score <= 16) {
-    return "你已具备良好的 AI 协同意识，能够对齐业务价值并驱动初步落地。建议进一步提升评估优化与复利沉淀能力，向卓越型 DRI 迈进。";
-  }
-  return "你已经具备较完整的 AI DRI 能力结构。下一步可以把方法、评估和工作流沉淀为团队资产，放大复用价值。";
+function coreLevelForScore(score) {
+  if (score <= 11) return "pro";
+  if (score <= 16) return "max5";
+  return "max20";
+}
+
+function buildAitiResult() {
+  const base = quizQuestions[0].options[answers[0]]?.level || "pro";
+  const guard = quizQuestions[1].options[answers[1]]?.level || "pro";
+  const efficiency = quizQuestions[2].options[answers[2]]?.level || "pro";
+  const coreScore = answers.slice(3).reduce((sum, answerIndex, index) => {
+    return sum + (quizQuestions[index + 3].options[answerIndex]?.score || 0);
+  }, 0);
+  const core = coreLevelForScore(coreScore);
+  const parts = [
+    personaParts.base[base],
+    personaParts.guard[guard],
+    personaParts.efficiency[efficiency],
+    personaParts.core[core],
+  ];
+  const name = parts.map((part) => part.name).join(" × ");
+  const strengths = parts.map((part) => part.strength);
+  const gaps = parts.map((part) => part.gap);
+  return {
+    name,
+    coreScore,
+    strengths,
+    gaps,
+    labels: parts.map((part) => part.name),
+  };
+}
+
+function resultCopyMarkup(result) {
+  return `
+    <span class="result-score">核心能力得分：${result.coreScore} / 21</span>
+    <span class="result-summary">一句话结论：你当前的 AITI 人格由 ${result.labels.join("、")} 组成，适合从自身长板切入，继续补齐短板并形成可复用的 AI DRI 方法。</span>
+    <strong>长板</strong>
+    <ul>${result.strengths.map((item) => `<li>${item}</li>`).join("")}</ul>
+    <strong>短板</strong>
+    <ul>${result.gaps.map((item) => `<li>${item}</li>`).join("")}</ul>
+  `;
 }
 
 function showResult({ scroll = true } = {}) {
   if (!resultCard) return;
-  const score = answers.reduce((sum, value) => sum + value + 1, 0);
-  const level = score <= 10 ? "入门型 AI DRI" : score <= 16 ? "进阶型 AI DRI" : "精通型 AI DRI";
-  document.getElementById("resultLevel").textContent = level;
-  document.getElementById("resultCopy").textContent = resultCopyForScore(score);
+  const result = buildAitiResult();
+  document.getElementById("resultLevel").textContent = result.name;
+  document.getElementById("resultCopy").innerHTML = resultCopyMarkup(result);
   resultCard.hidden = false;
   window.requestAnimationFrame(() => {
     resultCard.classList.add("is-visible");
@@ -1017,6 +1207,34 @@ function bindEvents() {
       closePopover();
     }
   });
+
+  document.addEventListener(
+    "touchstart",
+    (event) => {
+      if (!event.target.closest(".quiz-stage")) return;
+      const touch = event.touches[0];
+      quizTouchStartX = touch.clientX;
+      quizTouchStartY = touch.clientY;
+    },
+    { passive: true },
+  );
+
+  document.addEventListener(
+    "touchend",
+    (event) => {
+      if (!event.target.closest(".quiz-stage")) return;
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - quizTouchStartX;
+      const deltaY = touch.clientY - quizTouchStartY;
+      if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+      currentQuestion =
+        deltaX < 0
+          ? (currentQuestion + 1) % quizQuestions.length
+          : (currentQuestion - 1 + quizQuestions.length) % quizQuestions.length;
+      renderQuiz();
+    },
+    { passive: true },
+  );
 
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a");

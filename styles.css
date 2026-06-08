@@ -1449,6 +1449,29 @@ details p {
   color: var(--body);
 }
 
+.quiz-result #resultCopy {
+  display: grid;
+  gap: 8px;
+}
+
+.result-score,
+.result-summary {
+  display: block;
+}
+
+.result-score {
+  color: var(--primary);
+  font-weight: 760;
+}
+
+.quiz-result ul {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 6px;
+  padding-left: 1.1em;
+  color: var(--body);
+}
+
 .popover p {
   margin-bottom: 0;
   color: var(--muted);

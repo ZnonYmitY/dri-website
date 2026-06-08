@@ -8,7 +8,7 @@
       name="description"
       content="AI DRI 指南针，帮助用户从会用 AI 走向成为 AI 时代的 DRI。"
     />
-    <link rel="stylesheet" href="styles.css?v=20260608-clean2" />
+    <link rel="stylesheet" href="styles.css?v=20260608-aiti" />
   </head>
   <body>
     <div class="page-shell editable-scope">
@@ -74,26 +74,26 @@
 
         <section id="assessment" class="assessment section-card" aria-labelledby="assessment-title">
           <div class="section-heading">
-            <h2 id="assessment-title">先做一个自测</h2>
-            <p>这一份简短的自测题，帮你评估今日的定位？</p>
+            <h2 id="assessment-title">先做一个 AITI 人格测试</h2>
+            <p>回答 10 个场景题，生成你的 AI DRI 人格画像。</p>
           </div>
 
           <div class="quiz-stage">
             <button class="round-nav prev" type="button" id="prevQuestion" aria-label="上一题">←</button>
             <article class="quiz-card ghost left" aria-hidden="true">
-              <p>第 2 / 7 题</p>
-              <h3>你如何定义 AI 项目中的边界？</h3>
+              <p>第 10 / 10 题</p>
+              <h3>当 AI 能力要从 Demo 走向稳定复用时，你会优先补什么？</h3>
             </article>
 
             <article class="quiz-card active" aria-live="polite">
-              <p class="quiz-count" id="quizCount">第 1 / 7 题</p>
-              <h3 id="quizQuestion">在 AI 驱动的项目中，DRI 最关键的职责是什么？</h3>
+              <p class="quiz-count" id="quizCount">第 1 / 10 题</p>
+              <h3 id="quizQuestion">场景：业务同学提出“能不能用 AI 做一个自动生成短视频脚本的功能”，希望你当天给出初步判断。你最可能先怎么做？</h3>
               <div class="options" id="quizOptions"></div>
             </article>
 
             <article class="quiz-card ghost right" aria-hidden="true">
-              <p>第 3 / 7 题</p>
-              <h3>在 AI 结果不稳定时，你会优先做什么？</h3>
+              <p>第 2 / 10 题</p>
+              <h3>一个 AI Demo 看起来效果不错，准备上线前你最关注什么？</h3>
             </article>
             <button class="round-nav next" type="button" id="nextQuestion" aria-label="下一题">→</button>
           </div>
@@ -101,11 +101,10 @@
           <article class="quiz-result" id="quizResult" aria-live="polite" hidden>
             <div class="result-medal" aria-hidden="true">✦</div>
             <div>
-              <p class="result-kicker">自测已完成</p>
-              <h3>你的自测评级：<span id="resultLevel">进阶型 AI DRI</span></h3>
+              <p class="result-kicker">AITI 人格已生成</p>
+              <h3>你的 AITI 人格：<span id="resultLevel">选型者 × 操盘手 × 流程师 × 主导型 DRI</span></h3>
               <p id="resultCopy">
-                你已具备良好的 AI 协同意识，能够对齐业务价值并驱动初步落地。
-                建议进一步提升评估优化与复利沉淀能力，向卓越型 DRI 迈进。
+                完成 10 道题后，将展示四层能力标签、核心能力得分、长板与短板。
               </p>
             </div>
           </article>
@@ -160,23 +159,11 @@
 
         <section id="resources" class="why-section section-card" aria-labelledby="why-title">
           <h2 id="why-title">为什么需要这套指南针</h2>
-          <div class="faq-list">
-            <details open>
-              <summary><span>1. 为什么本套定义把 DRI 视角放在价值工具的人？</span><span class="faq-plus" aria-hidden="true"></span></summary>
-              <p>聚焦价值与 Prompt 工具是手段，DRI 定义强调对价值闭环负责和可沉淀闭环。</p>
-            </details>
+          <div id="about" class="faq-list">
             <details>
-              <summary><span>2. 为什么现在尤其需要 DRI？</span><span class="faq-plus" aria-hidden="true"></span></summary>
-              <p>当 AI 从工具进入深水区并带来巨大不确定性，复杂控制需要明确的负责人。</p>
+              <summary><span>给你一个真实的用户反馈（来自一增长方向 PM 的分享）</span><span class="faq-plus" aria-hidden="true"></span></summary>
+              <p>真正有用的 AI 指南针，不是告诉你会用什么工具，而是帮助你判断自己在业务、技术、落地和提效中的真实位置。</p>
             </details>
-            <details>
-              <summary><span>3. 这套指南针对哪些群体有用？</span><span class="faq-plus" aria-hidden="true"></span></summary>
-              <p>面向业务负责人、业务驱动型组织者、想到入组织的管理者。</p>
-            </details>
-          </div>
-          <div class="manifesto" id="about">
-            <span class="brand-mark" aria-hidden="true">✦</span>
-            <strong>不适合会用工具，而是多维度的价值闭环操盘者。</strong>
           </div>
         </section>
       </main>
@@ -188,6 +175,6 @@
       <p id="popoverText">能够把模糊需求转化为清晰、可验证、可衡量的 AI 任务边界。</p>
     </div>
 
-    <script src="script.js?v=20260608-gif"></script>
+    <script src="script.js?v=20260608-aiti"></script>
   </body>
 </html>
