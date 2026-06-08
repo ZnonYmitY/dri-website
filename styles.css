@@ -322,7 +322,7 @@ h3 {
   position: relative;
   min-height: 520px;
   overflow: hidden;
-  border: 1px solid #27445f;
+  border: 0;
   border-radius: 14px;
   background: var(--surface);
 }
