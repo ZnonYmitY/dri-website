@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1780911783288,
+  "updatedAt": 1780911972632,
   "navLabels": {
     "guide": "核心概念",
     "map": "能力地图",
@@ -42,6 +42,23 @@
       "currentQuestion": 0,
       "syncStatus": "cloud",
       "cloudUpdatedAt": 1780911783288
+    },
+    "cases": {
+      "version": 6,
+      "updatedAt": 1780911970693,
+      "html": "\n      <header class=\"site-header\">\n        <a class=\"brand\" href=\"index.html\" aria-label=\"AI DRI 指南针首页\">\n          <span class=\"brand-mark compass-mark\" aria-hidden=\"true\">\n            <svg viewBox=\"0 0 44 44\" role=\"img\"><circle cx=\"22\" cy=\"22\" r=\"18\"></circle><path d=\"M26.8 17.2 23.9 29l-6.7-2.2 2.9-11.8 6.7 2.2Z\"></path><path d=\"M20.1 15 17.2 26.8l6.7 2.2 2.9-11.8-6.7-2.2Z\"></path><path d=\"M22 5v5M22 34v5M5 22h5M34 22h5\"></path></svg>\n          </span>\n          <span>AI DRI 指南针</span>\n        </a>\n        <nav class=\"nav\" aria-label=\"主导航\">\n          <a data-nav-key=\"guide\" href=\"guide.html\">核心概念</a>\n          <a data-nav-key=\"map\" href=\"map.html\">能力地图</a>\n          <a class=\"active\" data-nav-key=\"cases\" href=\"cases.html\">常见误区</a>\n          <a data-nav-key=\"resources\" href=\"resources.html\">成长路径</a>\n          <a data-nav-key=\"about\" href=\"index.html#about\">关于我们</a>\n        </nav>\n        <div class=\"editor-bar\" aria-label=\"编辑工具栏\">\n          <button class=\"editor-button editor-primary\" type=\"button\" id=\"toggleEdit\">编辑模式<span aria-hidden=\"true\">›</span></button>\n          <button class=\"editor-button\" id=\"saveLocal\" type=\"button\">保存本机</button><button class=\"editor-button\" type=\"button\" id=\"savePage\">发布云端</button>\n          <button class=\"editor-button\" id=\"refreshCloud\" type=\"button\">从云端刷新</button><button class=\"editor-button\" type=\"button\" id=\"exportHtml\">导出 HTML</button>\n          <button class=\"editor-button\" id=\"cloudSettings\" type=\"button\">GitHub 已连接</button><span class=\"save-status\" id=\"saveStatus\" aria-live=\"polite\"></span>\n        </div>\n      </header>\n\n      <main class=\"subpage-main\">\n        <section class=\"case-hero\">\n          <div>\n            <p class=\"pill\">常见误区</p>\n            <h1>5 个常见误区</h1>\n            <p>不要只从工具或 Demo 出发，而要从真实价值闭环出发</p>\n          </div>\n          <div class=\"orbit-illus\" aria-hidden=\"true\"></div>\n        </section>\n\n        <section class=\"prototype-card\">\n          <div class=\"case-tabs\" role=\"tablist\" aria-label=\"误区\">\n            <button class=\"active\" type=\"button\" data-case=\"0\">误区一</button>\n            <button type=\"button\" data-case=\"1\">误区二</button>\n            <button type=\"button\" data-case=\"2\">误区三</button>\n            <button type=\"button\" data-case=\"3\">误区四</button>\n            <button type=\"button\" data-case=\"4\">误区五</button>\n          </div>\n          <div class=\"case-slider\" aria-live=\"polite\">\n            <div class=\"case-slide-track\">\n              <div class=\"case-slide\">\n                <div class=\"case-detail\">\n                  <article><h2>误区一：会用 AI 工具 = 具备 AI 能力</h2><p class=\"pill\">基础误判</p><h3>错误判断</h3><p>把工具熟练度当成项目能力，容易忽略问题定义、价值判断和落地闭环。</p></article>\n                  <aside class=\"correction-box\"><h3>校正</h3><h2>工具只是入口，DRI 要对价值闭环负责。</h2><p><span class=\"pill\">问题定义</span> <span class=\"pill\">价值路径</span> <span class=\"pill\">结果负责</span></p></aside>\n                </div>\n              </div>\n              <div class=\"case-slide\">\n                <div class=\"case-detail\">\n                  <article><h2>误区二：Demo 跑通 = 项目可上线</h2><p class=\"pill\">高频误判</p><h3>错误判断</h3><p>很多团队把 Demo 跑通，当成项目已经具备上线条件。但 Demo 只说明“某一刻能工作”。</p></article>\n                  <aside class=\"correction-box\"><h3>校正</h3><h2>上线需要 Eval、兜底、风险分层和用户反馈。</h2><p><span class=\"pill\">Eval 评估</span> <span class=\"pill\">兜底策略</span> <span class=\"pill\">风险分层</span> <span class=\"pill\">用户反馈</span></p></aside>\n                </div>\n              </div>\n              <div class=\"case-slide\">\n                <div class=\"case-detail\">\n                  <article><h2>误区三：AI 项目是算法或研发的事</h2><p class=\"pill\">责任误判</p><h3>错误判断</h3><p>把 AI 项目完全交给技术侧，业务目标、场景约束和验收标准就容易缺位。</p></article>\n                  <aside class=\"correction-box\"><h3>校正</h3><h2>业务 DRI 必须定义问题、提供上下文并判断价值。</h2><p><span class=\"pill\">业务上下文</span> <span class=\"pill\">验收标准</span> <span class=\"pill\">协同边界</span></p></aside>\n                </div>\n              </div>\n              <div class=\"case-slide\">\n                <div class=\"case-detail\">\n                  <article><h2>误区四：AI 越自动化越好</h2><p class=\"pill\">流程误判</p><h3>错误判断</h3><p>过早追求全自动，会把不稳定结果直接推到真实用户和业务流程里。</p></article>\n                  <aside class=\"correction-box\"><h3>校正</h3><h2>先做人机协同，再逐步沉淀可自动化的链路。</h2><p><span class=\"pill\">人机分工</span> <span class=\"pill\">检查点</span> <span class=\"pill\">渐进上线</span></p></aside>\n                </div>\n              </div>\n              <div class=\"case-slide\">\n                <div class=\"case-detail\">\n                  <article><h2>误区五：Prompt 写得好就够了</h2><p class=\"pill\">方法误判</p><h3>错误判断</h3><p>只优化提示词，往往无法解决知识缺口、工具链路、数据质量和评估问题。</p></article>\n                  <aside class=\"correction-box\"><h3>校正</h3><h2>效果来自上下文、知识、工具、流程和评估的组合。</h2><p><span class=\"pill\">上下文</span> <span class=\"pill\">知识</span> <span class=\"pill\">工具</span> <span class=\"pill\">评估</span></p></aside>\n                </div>\n              </div>\n            </div>\n          </div>\n        </section>\n      </main>\n    ",
+      "answers": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "currentQuestion": 0,
+      "syncStatus": "cloud",
+      "cloudUpdatedAt": 1780911972632
     }
   }
 }
