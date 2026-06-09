@@ -1,6 +1,6 @@
 {
   "version": 6,
-  "updatedAt": 1780974666182,
+  "updatedAt": 1780974705504,
   "navLabels": {
     "guide": "核心概念",
     "map": "能力地图",
@@ -48,7 +48,7 @@
     },
     "guide": {
       "version": 6,
-      "updatedAt": 1780974664329,
+      "updatedAt": 1780974704558,
       "html": "\n      <header class=\"site-header\">\n        <a class=\"brand\" href=\"index.html\" aria-label=\"AI DRI 指南针首页\">\n          <span class=\"brand-mark compass-mark\" aria-hidden=\"true\">\n            <svg viewBox=\"0 0 44 44\" role=\"img\">\n              <circle cx=\"22\" cy=\"22\" r=\"18\"></circle>\n              <path d=\"M26.8 17.2 23.9 29l-6.7-2.2 2.9-11.8 6.7 2.2Z\"></path>\n              <path d=\"M20.1 15 17.2 26.8l6.7 2.2 2.9-11.8-6.7-2.2Z\"></path>\n              <path d=\"M22 5v5M22 34v5M5 22h5M34 22h5\"></path>\n            </svg>\n          </span>\n          <span>AI DRI 指南针</span>\n        </a>\n        <nav class=\"nav\" aria-label=\"主导航\">\n          <a class=\"active\" data-nav-key=\"guide\" href=\"guide.html\">核心概念</a>\n          <a data-nav-key=\"map\" href=\"map.html\">能力地图</a>\n          <a data-nav-key=\"cases\" href=\"cases.html\">常见误区</a>\n          <a data-nav-key=\"resources\" href=\"resources.html\">成长路径</a>\n          <a data-nav-key=\"about\" href=\"index.html#about\">关于我们</a>\n        </nav>\n        <div class=\"editor-bar\" aria-label=\"编辑工具栏\">\n          <button class=\"editor-button editor-primary\" type=\"button\" id=\"toggleEdit\">编辑模式<span aria-hidden=\"true\">›</span></button>\n          <button class=\"editor-button\" id=\"saveLocal\" type=\"button\">保存本机</button><button class=\"editor-button\" type=\"button\" id=\"savePage\">发布云端</button>\n          <button class=\"editor-button\" id=\"refreshCloud\" type=\"button\">从云端刷新</button><button class=\"editor-button\" type=\"button\" id=\"exportHtml\">导出 HTML</button>\n          <button class=\"editor-button\" id=\"cloudSettings\" type=\"button\">GitHub 已连接</button><span class=\"save-status\" id=\"saveStatus\" aria-live=\"polite\"></span>\n        </div>\n      </header>\n\n      <main class=\"subpage-main\">\n        <section class=\"subpage-hero\">\n          <p class=\"pill\">核心概念速通</p>\n          <h1>5 个 AI 核心概念速通</h1>\n          <p>帮你快速建立对 AI 工作方式的统一认知。理解 LLM、Prompt、RAG、Agent、Eval 的分工，避免把不同问题混为一谈。</p>\n        </section>\n\n        <section class=\"prototype-card\">\n          <div class=\"concept-tabs\" role=\"tablist\" aria-label=\"AI 核心概念\">\n            <button class=\"active\" type=\"button\" data-concept=\"llm\">LLM</button>\n            <button type=\"button\" data-concept=\"prompt\" class=\"\">Prompt</button>\n            <button type=\"button\" data-concept=\"rag\" class=\"\">RAG</button>\n            <button type=\"button\" data-concept=\"agent\" class=\"\">Agent</button>\n            <button type=\"button\" data-concept=\"eval\" class=\"\">Eval</button>\n          </div>\n          <div class=\"concept-feature\">\n            <div class=\"video-placeholder\">\n              <button class=\"video-play\" type=\"button\" aria-label=\"播放核心概念介绍\">▶</button>\n              <div class=\"video-bar\"><strong>▶</strong><span></span><small>01:32 / 04:20</small></div>\n            </div>\n            <div class=\"concept-copy\">\n              <h2 id=\"conceptTitle\">LLM</h2>\n              <p id=\"conceptIntro\">大语言模型，擅长理解、生成、总结、推理，但会犯错，也不天然懂业务。</p>\n              <div class=\"concept-point\">\n                <span class=\"concept-icon\" id=\"conceptIconOne\">好</span>\n                <div><h3 id=\"conceptPointTitleOne\">它擅长什么</h3><p id=\"conceptPointTextOne\">理解文本、生成内容、信息提炼、基础逻辑推理。</p></div>\n              </div>\n              <div class=\"concept-point\">\n                <span class=\"concept-icon\" id=\"conceptIconTwo\">限</span>\n                <div><h3 id=\"conceptPointTitleTwo\">它不擅长什么</h3><p id=\"conceptPointTextTwo\">天然掌握私有业务数据、稳定执行复杂工作流、保证事实绝对正确。</p></div>\n              </div>\n              <div class=\"concept-point\">\n                <span class=\"concept-icon\" id=\"conceptIconThree\">想</span>\n                <div><h3 id=\"conceptPointTitleThree\">你该如何理解</h3><p id=\"conceptPointTextThree\">它是整个系统的能力底座，就像一个聪明但没看过你公司资料的毕业生。</p></div>\n              </div>\n            </div>\n          </div>\n        </section>\n      </main>\n    ",
       "answers": [
         null,
@@ -64,7 +64,7 @@
       ],
       "currentQuestion": 0,
       "syncStatus": "cloud",
-      "cloudUpdatedAt": 1780974666182
+      "cloudUpdatedAt": 1780974705504
     }
   }
 }
