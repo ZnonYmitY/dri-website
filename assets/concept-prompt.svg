@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#fff"/>
+  <text x="48" y="70" font-family="Arial, sans-serif" font-size="46" font-weight="800" fill="#1661ab">Prompt 提示词应用场景</text>
+  <text x="48" y="145" font-family="Arial, sans-serif" font-size="28" fill="#53606d">Prompt 是与模型交互的文本输入方式，帮助用户对话、提问或请求特定信息。</text>
+  <g font-family="Arial, sans-serif" font-size="26" fill="#202833" stroke="#202833" stroke-width="2">
+    <circle cx="600" cy="390" r="62" fill="#fff7dc" stroke="#f2b94b"/>
+    <text x="600" y="400" text-anchor="middle" fill="#e49b16" stroke="none">Prompt</text>
+    <g fill="#fff" stroke="#202833">
+      <rect x="468" y="190" width="160" height="58" rx="15"/><text x="548" y="228" text-anchor="middle" stroke="none">代码编写</text>
+      <rect x="675" y="190" width="180" height="58" rx="15"/><text x="765" y="228" text-anchor="middle" stroke="none">文本提炼</text>
+      <rect x="860" y="315" width="210" height="58" rx="15"/><text x="965" y="353" text-anchor="middle" stroke="none">知识管理搜索</text>
+      <rect x="915" y="440" width="170" height="58" rx="15"/><text x="1000" y="478" text-anchor="middle" stroke="none">多模态整合</text>
+      <rect x="645" y="575" width="175" height="58" rx="15"/><text x="733" y="613" text-anchor="middle" stroke="none">文本生成绘画</text>
+      <rect x="330" y="575" width="175" height="58" rx="15"/><text x="418" y="613" text-anchor="middle" stroke="none">数据分析可视化</text>
+      <rect x="170" y="440" width="190" height="58" rx="15"/><text x="265" y="478" text-anchor="middle" stroke="none">文本内容生成</text>
+      <rect x="250" y="315" width="160" height="58" rx="15"/><text x="330" y="353" text-anchor="middle" stroke="none">问答系统</text>
+    </g>
+    <g stroke="#202833" fill="none">
+      <path d="M580 328 L545 250"/><path d="M622 330 L735 250"/><path d="M660 373 L860 345"/><path d="M658 420 L915 460"/><path d="M620 452 L725 575"/><path d="M565 448 L440 575"/><path d="M538 398 L360 465"/><path d="M540 360 L410 340"/>
+    </g>
+  </g>
+</svg>

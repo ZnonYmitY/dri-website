@@ -513,7 +513,8 @@ h3 {
   align-items: center;
 }
 
-.video-placeholder {
+.video-placeholder,
+.concept-visual {
   position: relative;
   min-height: 520px;
   overflow: hidden;
@@ -522,6 +523,20 @@ h3 {
   background:
     linear-gradient(135deg, rgba(147, 213, 220, 0.16), rgba(22, 97, 171, 0.08)),
     var(--canvas);
+}
+
+.concept-visual {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: var(--canvas);
+}
+
+.concept-visual img {
+  display: block;
+  width: 100%;
+  height: 520px;
+  object-fit: contain;
 }
 
 .video-placeholder::before {
@@ -1746,8 +1761,13 @@ body.editing .upload-chip {
     grid-template-columns: 1fr;
   }
 
-  .video-placeholder {
+  .video-placeholder,
+  .concept-visual {
     min-height: 340px;
+  }
+
+  .concept-visual img {
+    height: 340px;
   }
 
   .radar-map {

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#f7fbff"/>
+  <text x="600" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="72" font-weight="800" fill="#102033">什么是 LLM？</text>
+  <text x="600" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" fill="#53606d">Large Language Model · 大语言模型</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <rect x="165" y="275" width="390" height="235" rx="32" fill="#fff" stroke="#e7eef8"/>
+    <text x="360" y="380" font-size="48" font-weight="800" fill="#102033">理解语言</text>
+    <text x="360" y="430" font-size="30" fill="#53606d">解析人类文本含义</text>
+    <rect x="645" y="275" width="390" height="235" rx="32" fill="#fff" stroke="#e7eef8"/>
+    <text x="840" y="380" font-size="48" font-weight="800" fill="#102033">智能对话</text>
+    <text x="840" y="430" font-size="30" fill="#53606d">人机交互问答</text>
+    <rect x="165" y="570" width="390" height="235" rx="32" fill="#fff" stroke="#e7eef8"/>
+    <text x="360" y="675" font-size="48" font-weight="800" fill="#102033">文本创作</text>
+    <text x="360" y="725" font-size="30" fill="#53606d">写作 / 翻译 / 总结</text>
+    <rect x="645" y="570" width="390" height="235" rx="32" fill="#fff" stroke="#e7eef8"/>
+    <text x="840" y="675" font-size="48" font-weight="800" fill="#102033">代码开发</text>
+    <text x="840" y="725" font-size="30" fill="#53606d">编写调试代码</text>
+    <text x="600" y="860" font-size="30" fill="#53606d">基于海量文本训练的人工智能语言模型</text>
+  </g>
+</svg>

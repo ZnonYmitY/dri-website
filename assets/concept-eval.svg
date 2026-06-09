@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#fff"/>
+  <text x="600" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="64" font-weight="800" fill="#1661ab">EVAL 评估指南</text>
+  <g font-family="Arial, sans-serif" fill="#111">
+    <rect x="90" y="210" width="470" height="250" rx="34" fill="#e4f5ff" stroke="#c6d0d8" stroke-width="5"/>
+    <text x="180" y="300" font-size="44" font-weight="800">什么是 EVAL？</text>
+    <text x="185" y="370" font-size="34">EVAL = Evaluation</text>
+    <text x="185" y="425" font-size="34">系统性检测、分析与判断</text>
+    <rect x="640" y="210" width="470" height="250" rx="34" fill="#e4f5ff" stroke="#c6d0d8" stroke-width="5"/>
+    <text x="730" y="300" font-size="44" font-weight="800">核心目标</text>
+    <text x="750" y="370" font-size="34">1. 验证是否达标</text><text x="750" y="425" font-size="34">2. 定位优化方向</text>
+    <rect x="90" y="540" width="470" height="250" rx="34" fill="#e4f5ff" stroke="#c6d0d8" stroke-width="5"/>
+    <text x="180" y="630" font-size="44" font-weight="800">常见类型</text>
+    <text x="210" y="700" font-size="34">· AI 模型评估</text><text x="210" y="760" font-size="34">· 项目效果评估</text>
+    <rect x="640" y="540" width="470" height="250" rx="34" fill="#e4f5ff" stroke="#c6d0d8" stroke-width="5"/>
+    <text x="730" y="630" font-size="44" font-weight="800">关键价值</text>
+    <text x="760" y="700" font-size="34">· 量化成果价值</text><text x="760" y="760" font-size="34">· 推动持续优化</text>
+  </g>
+</svg>

@@ -299,6 +299,7 @@ const popoverContent = {
 const conceptDetails = {
   llm: {
     title: "LLM",
+    image: { src: "assets/concept-llm.svg", alt: "LLM 概念图" },
     intro: "大语言模型，擅长理解、生成、总结、推理，但会犯错，也不天然懂业务。",
     points: [
       ["好", "它擅长什么", "理解文本、生成内容、信息提炼、基础推理。"],
@@ -308,6 +309,7 @@ const conceptDetails = {
   },
   prompt: {
     title: "Prompt",
+    image: { src: "assets/concept-prompt.svg", alt: "Prompt 概念图" },
     intro: "Prompt 是任务说明和约束表达，先把目标、背景、角色、格式说清楚。",
     points: [
       ["写", "留出内容位置", "这里可放提示词结构、示例和常见改写方式。"],
@@ -317,6 +319,7 @@ const conceptDetails = {
   },
   rag: {
     title: "RAG",
+    image: { src: "assets/concept-rag.svg", alt: "RAG 概念图" },
     intro: "RAG 负责把外部知识带入模型回答，让 AI 不只依赖参数记忆。",
     points: [
       ["查", "留出内容位置", "这里可放知识库、检索、引用和更新机制。"],
@@ -326,6 +329,7 @@ const conceptDetails = {
   },
   agent: {
     title: "Agent",
+    image: { src: "assets/concept-agent.svg", alt: "Agent 概念图" },
     intro: "Agent 把目标拆成步骤、工具调用、记忆和检查点，面向任务运行。",
     points: [
       ["跑", "留出内容位置", "这里可放工作流、工具、状态和异常处理。"],
@@ -335,6 +339,7 @@ const conceptDetails = {
   },
   eval: {
     title: "Eval",
+    image: { src: "assets/concept-eval.svg", alt: "Eval 概念图" },
     intro: "Eval 是判断 AI 能否上线、是否可靠、如何持续优化的评估体系。",
     points: [
       ["测", "留出内容位置", "这里可放样例集、指标、人工校验和线上反馈。"],
@@ -687,6 +692,11 @@ function setConcept(key) {
     const element = document.getElementById(id);
     if (element) element.textContent = value;
   });
+  const image = document.getElementById("conceptImage");
+  if (image && detail.image?.src) {
+    image.src = detail.image.src;
+    image.alt = detail.image.alt || `${detail.title} 概念图`;
+  }
 }
 
 function setDimension(index) {
@@ -773,8 +783,15 @@ function conceptText(id) {
 
 function readConceptDetailFromDom() {
   if (!document.getElementById("conceptTitle")) return null;
+  const image = document.getElementById("conceptImage");
   return {
     title: conceptText("conceptTitle"),
+    image: image
+      ? {
+          src: image.getAttribute("src") || "",
+          alt: image.getAttribute("alt") || "",
+        }
+      : undefined,
     intro: conceptText("conceptIntro"),
     points: [
       [
@@ -801,6 +818,10 @@ function normalizeConceptDetail(detail, fallback) {
   const points = Array.isArray(detail.points) ? detail.points : fallback.points;
   return {
     title: String(detail.title ?? fallback.title ?? ""),
+    image: {
+      src: String(detail.image?.src ?? fallback.image?.src ?? ""),
+      alt: String(detail.image?.alt ?? fallback.image?.alt ?? `${detail.title || fallback.title} 概念图`),
+    },
     intro: String(detail.intro ?? fallback.intro ?? ""),
     points: [0, 1, 2].map((index) => {
       const point = Array.isArray(points[index]) ? points[index] : fallback.points[index];

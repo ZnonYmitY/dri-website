@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#fff"/>
+  <text x="600" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="58" font-weight="800" fill="#111">RAG 检索增强生成</text>
+  <text x="600" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="38" fill="#222">(Retrieval-Augmented Generation)</text>
+  <g font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#111">
+    <rect x="85" y="220" width="330" height="165" rx="20" fill="#dff1ff" stroke="#61afd7" stroke-width="5"/>
+    <text x="150" y="285">用户提问：</text><text x="140" y="340">“AI 的发展历史？”</text>
+    <rect x="95" y="505" width="330" height="175" rx="20" fill="#e6ffe9" stroke="#55bd70" stroke-width="5"/>
+    <text x="150" y="570">外部知识库</text><text x="140" y="625" font-size="30" font-weight="400">文档 / 论文 / 数据</text>
+    <rect x="480" y="500" width="300" height="175" rx="20" fill="#fff3c7" stroke="#f0cc6b" stroke-width="5"/>
+    <text x="555" y="575">检索模块</text><text x="535" y="630" font-size="30" font-weight="400">检索相关信息片段</text>
+    <rect x="835" y="500" width="300" height="175" rx="20" fill="#e8e4ff" stroke="#9b91d8" stroke-width="5"/>
+    <text x="895" y="575">大语言模型</text><text x="885" y="630" font-size="30" font-weight="400">结合问题 + 检索内容</text>
+    <rect x="895" y="220" width="240" height="165" rx="20" fill="#ffe4e9" stroke="#df8292" stroke-width="5"/>
+    <text x="950" y="285">生成回答：</text><text x="930" y="340" font-size="30" font-weight="400">“AI 起源于 1956 年...”</text>
+  </g>
+  <g stroke="#6b7280" stroke-width="4" fill="none" marker-end="url(#a)">
+    <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6b7280"/></marker></defs>
+    <path d="M415 302 H890"/><path d="M260 385 V505"/><path d="M425 590 H480"/><path d="M780 590 H835"/><path d="M985 500 V385"/>
+  </g>
+</svg>

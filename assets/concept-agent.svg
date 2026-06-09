@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#fffdfa"/>
+  <g font-family="Arial, sans-serif" fill="#111">
+    <rect x="105" y="245" width="330" height="165" rx="18" fill="#fffdfa" stroke="#5aa5d3" stroke-width="4"/>
+    <text x="175" y="305" font-size="40" font-weight="800">感知模块</text><text x="175" y="360" font-size="30">Perception Module</text><text x="175" y="410" font-size="30">接收环境 / 用户输入</text>
+    <rect x="765" y="245" width="330" height="165" rx="18" fill="#fffdfa" stroke="#5aa5d3" stroke-width="4"/>
+    <text x="835" y="305" font-size="40" font-weight="800">规划模块</text><text x="835" y="360" font-size="30">Planning Module</text><text x="835" y="410" font-size="30">任务分解 / 决策生成</text>
+    <rect x="435" y="420" width="330" height="170" rx="18" fill="#fffdfa" stroke="#5aa5d3" stroke-width="4"/>
+    <text x="520" y="490" font-size="42" font-weight="800">LLM 核心</text><text x="505" y="545" font-size="30">大语言模型</text><text x="505" y="595" font-size="30">推理 / 理解核心</text>
+    <rect x="105" y="635" width="330" height="165" rx="18" fill="#fffdfa" stroke="#5aa5d3" stroke-width="4"/>
+    <text x="175" y="695" font-size="40" font-weight="800">记忆模块</text><text x="175" y="750" font-size="30">Memory Module</text><text x="175" y="800" font-size="30">短期记忆 / 长期记忆</text>
+    <rect x="765" y="635" width="330" height="165" rx="18" fill="#fffdfa" stroke="#5aa5d3" stroke-width="4"/>
+    <text x="835" y="695" font-size="40" font-weight="800">行动模块</text><text x="835" y="750" font-size="30">Action Module</text><text x="835" y="800" font-size="30">执行操作 / 输出结果</text>
+    <text x="600" y="215" text-anchor="middle" font-size="34" font-weight="800">环境反馈</text>
+  </g>
+  <g stroke="#111" stroke-width="6" fill="none" marker-end="url(#a)">
+    <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#111"/></marker></defs>
+    <path d="M270 635 V410"/><path d="M435 505 H270"/><path d="M765 505 H930 V635"/><path d="M600 420 H600"/><path d="M435 505 H765"/>
+    <path d="M270 245 C270 130 930 130 930 245"/><path d="M930 800 C930 850 270 850 270 800"/>
+  </g>
+</svg>
