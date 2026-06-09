@@ -663,6 +663,7 @@ function showResult({ scroll = true } = {}) {
 }
 
 function setConcept(key) {
+  captureActiveConceptDetail();
   const detail = conceptDetails[key];
   if (!detail) return;
   document.querySelectorAll("[data-concept]").forEach((button) => {
@@ -758,7 +759,88 @@ function closePopover() {
   popover.hidden = true;
 }
 
+function hasConceptTabs() {
+  return !!document.querySelector("[data-concept]");
+}
+
+function activeConceptKey() {
+  return document.querySelector("[data-concept].active")?.dataset.concept || "";
+}
+
+function conceptText(id) {
+  return document.getElementById(id)?.textContent.trim() || "";
+}
+
+function readConceptDetailFromDom() {
+  if (!document.getElementById("conceptTitle")) return null;
+  return {
+    title: conceptText("conceptTitle"),
+    intro: conceptText("conceptIntro"),
+    points: [
+      [
+        conceptText("conceptIconOne"),
+        conceptText("conceptPointTitleOne"),
+        conceptText("conceptPointTextOne"),
+      ],
+      [
+        conceptText("conceptIconTwo"),
+        conceptText("conceptPointTitleTwo"),
+        conceptText("conceptPointTextTwo"),
+      ],
+      [
+        conceptText("conceptIconThree"),
+        conceptText("conceptPointTitleThree"),
+        conceptText("conceptPointTextThree"),
+      ],
+    ],
+  };
+}
+
+function normalizeConceptDetail(detail, fallback) {
+  if (!detail || typeof detail !== "object") return fallback;
+  const points = Array.isArray(detail.points) ? detail.points : fallback.points;
+  return {
+    title: String(detail.title ?? fallback.title ?? ""),
+    intro: String(detail.intro ?? fallback.intro ?? ""),
+    points: [0, 1, 2].map((index) => {
+      const point = Array.isArray(points[index]) ? points[index] : fallback.points[index];
+      const fallbackPoint = fallback.points[index] || ["", "", ""];
+      return [0, 1, 2].map((pointIndex) =>
+        String(point?.[pointIndex] ?? fallbackPoint[pointIndex] ?? ""),
+      );
+    }),
+  };
+}
+
+function captureActiveConceptDetail() {
+  const key = activeConceptKey();
+  if (!key || !conceptDetails[key]) return;
+  const currentDetail = readConceptDetailFromDom();
+  if (!currentDetail) return;
+  conceptDetails[key] = normalizeConceptDetail(currentDetail, conceptDetails[key]);
+}
+
+function serializableConceptDetails() {
+  if (!hasConceptTabs()) return null;
+  captureActiveConceptDetail();
+  return Object.fromEntries(
+    Object.entries(conceptDetails).map(([key, detail]) => [
+      key,
+      normalizeConceptDetail(detail, conceptDetails[key]),
+    ]),
+  );
+}
+
+function applyConceptDetailsState(details) {
+  if (!details || typeof details !== "object") return;
+  Object.entries(details).forEach(([key, detail]) => {
+    if (!conceptDetails[key]) return;
+    conceptDetails[key] = normalizeConceptDetail(detail, conceptDetails[key]);
+  });
+}
+
 function pageState() {
+  const savedConceptDetails = serializableConceptDetails();
   const scopeClone = document.querySelector(".editable-scope").cloneNode(true);
   clearEditingAttributes(scopeClone);
   resetEditorUi(scopeClone);
@@ -771,6 +853,7 @@ function pageState() {
     html: scopeClone.innerHTML,
     answers,
     currentQuestion,
+    conceptDetails: savedConceptDetails || undefined,
   };
 }
 
@@ -1037,6 +1120,8 @@ function applyPageState(state) {
   if (state.html) {
     document.querySelector(".editable-scope").innerHTML = state.html;
   }
+  applyConceptDetailsState(state.conceptDetails);
+  captureActiveConceptDetail();
   if (Array.isArray(state.answers)) {
     state.answers.slice(0, answers.length).forEach((answer, index) => {
       answers[index] = answer;
