@@ -476,6 +476,24 @@ h3 {
   margin-left: auto;
 }
 
+.content-figure {
+  margin: 24px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--canvas);
+}
+
+.content-figure.wide {
+  margin-top: 28px;
+}
+
+.content-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .prototype-card {
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -862,6 +880,10 @@ h3 {
   background:
     linear-gradient(135deg, rgba(147, 213, 220, 0.24), rgba(249, 251, 255, 0.7)),
     var(--primary-soft);
+}
+
+.side-note .correction-box p {
+  white-space: pre-line;
 }
 
 .level-row {
