@@ -494,6 +494,17 @@ h3 {
   height: auto;
 }
 
+.doc-link {
+  color: var(--primary);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.doc-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .prototype-card {
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -1008,6 +1019,96 @@ h3 {
   color: var(--primary);
   font-size: 1.35rem;
   font-weight: 800;
+}
+
+.promote-hero {
+  max-width: 980px;
+}
+
+.promo-flow-card {
+  margin-bottom: 28px;
+}
+
+.section-heading.compact {
+  margin-bottom: 26px;
+}
+
+.promo-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.promo-flow article {
+  position: relative;
+  min-height: 160px;
+  border: 1px solid rgba(22, 97, 171, 0.18);
+  border-radius: 16px;
+  padding: 24px 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(249, 241, 219, 0.58)),
+    var(--canvas);
+}
+
+.promo-flow article:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  top: 30px;
+  right: -13px;
+  z-index: 1;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.promo-flow span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  margin-bottom: 18px;
+  color: var(--primary);
+  font-size: 1.12rem;
+  font-weight: 850;
+}
+
+.promo-flow p {
+  color: var(--body);
+  font-size: 0.98rem;
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-bottom: 28px;
+}
+
+.promo-grid .info-card {
+  min-height: 220px;
+}
+
+.promo-grid .promo-lead {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(22, 97, 171, 0.12), transparent 30%),
+    var(--canvas);
+}
+
+.promo-grid h2 {
+  margin-bottom: 22px;
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  line-height: 1.1;
+}
+
+.promo-grid h3 {
+  margin-bottom: 14px;
+  font-size: 1.35rem;
+}
+
+.promo-grid p:not(.pill) {
+  color: var(--body);
 }
 
 .section-card {
@@ -1591,8 +1692,28 @@ body.editing .upload-chip {
   .map-showcase,
   .case-detail,
   .case-hero,
-  .path-columns {
+  .path-columns,
+  .promo-grid {
     grid-template-columns: 1fr;
+  }
+
+  .promo-grid .promo-lead {
+    grid-row: auto;
+  }
+
+  .promo-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .promo-flow article {
+    min-height: auto;
+  }
+
+  .promo-flow article:not(:last-child)::after {
+    top: auto;
+    right: 50%;
+    bottom: -18px;
+    transform: translateX(50%) rotate(90deg);
   }
 
   .map-showcase {

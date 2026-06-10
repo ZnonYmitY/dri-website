@@ -37,13 +37,14 @@ const defaultNavLabels = {
   map: "能力地图",
   cases: "常见误区",
   resources: "成长路径",
-  about: "关于我们",
+  about: "如何推广",
 };
 const navKeyByHref = {
   "guide.html": "guide",
   "map.html": "map",
   "cases.html": "cases",
   "resources.html": "resources",
+  "promote.html": "about",
   "index.html#about": "about",
 };
 
@@ -904,6 +905,9 @@ function migratedNavLabels(labels) {
   }
   if (nextLabels.resources === "资源库") {
     nextLabels.resources = defaultNavLabels.resources;
+  }
+  if (nextLabels.about === "关于我们") {
+    nextLabels.about = defaultNavLabels.about;
   }
   return nextLabels;
 }
